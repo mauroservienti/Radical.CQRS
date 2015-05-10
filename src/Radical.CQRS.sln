@@ -1,0 +1,88 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Domain", "Sample.Domain\Sample.Domain.csproj", "{6F313B68-DE42-4F9D-9939-12793559CD7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radical.CQRS", "Radical.CQRS\Radical.CQRS.csproj", "{653A6247-A969-494C-ABBB-4287FFB729D9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.ViewModels", "Sample.ViewModels\Sample.ViewModels.csproj", "{E093237F-5FA7-4FBA-B224-F06483730AC6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radical.CQRS.Server", "Radical.CQRS.Server\Radical.CQRS.Server.csproj", "{E54A40DC-50BE-4E53-9759-0C59B76E1ACF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sample", "Sample", "{7C53E211-A57C-4B6E-8E95-DBB1591171A3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Server", "Sample.Server\Sample.Server.csproj", "{A7D775BA-06BC-459E-BA5C-C8BA76FD133D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Messages", "Sample.Messages\Sample.Messages.csproj", "{E1ADF8F0-6CB7-41C6-AE0C-AFAA01C62402}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radical.CQRS.Client", "Radical.CQRS.Client\Radical.CQRS.Client.csproj", "{F3E2BEBE-A733-4BEB-95BD-18497400BF6E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.WpfClient", "Sample.WpfClient\Sample.WpfClient.csproj", "{A4672AA8-99EE-4013-8832-B1FAF380F688}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radical.CQRS.EntityFramework", "Radical.CQRS.EntityFramework\Radical.CQRS.EntityFramework.csproj", "{1B7E9417-C085-450B-912E-55A3518C698C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget packages", "nuget packages", "{E002A4D7-79E1-4B68-A10C-7B640058561F}"
+EndProject
+Project("{E09DD79A-4488-4AB9-8D3F-A7EEE78BF432}") = "Radical.CQRS", "nuget\Radical.CQRS\Radical.CQRS.nuproj", "{8506913C-BABA-45BE-B6EB-2DDE2EE47FE2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6F313B68-DE42-4F9D-9939-12793559CD7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F313B68-DE42-4F9D-9939-12793559CD7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F313B68-DE42-4F9D-9939-12793559CD7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F313B68-DE42-4F9D-9939-12793559CD7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{653A6247-A969-494C-ABBB-4287FFB729D9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{653A6247-A969-494C-ABBB-4287FFB729D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{653A6247-A969-494C-ABBB-4287FFB729D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{653A6247-A969-494C-ABBB-4287FFB729D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E093237F-5FA7-4FBA-B224-F06483730AC6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E093237F-5FA7-4FBA-B224-F06483730AC6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E093237F-5FA7-4FBA-B224-F06483730AC6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E093237F-5FA7-4FBA-B224-F06483730AC6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E54A40DC-50BE-4E53-9759-0C59B76E1ACF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E54A40DC-50BE-4E53-9759-0C59B76E1ACF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E54A40DC-50BE-4E53-9759-0C59B76E1ACF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E54A40DC-50BE-4E53-9759-0C59B76E1ACF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7D775BA-06BC-459E-BA5C-C8BA76FD133D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7D775BA-06BC-459E-BA5C-C8BA76FD133D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7D775BA-06BC-459E-BA5C-C8BA76FD133D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7D775BA-06BC-459E-BA5C-C8BA76FD133D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1ADF8F0-6CB7-41C6-AE0C-AFAA01C62402}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1ADF8F0-6CB7-41C6-AE0C-AFAA01C62402}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1ADF8F0-6CB7-41C6-AE0C-AFAA01C62402}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1ADF8F0-6CB7-41C6-AE0C-AFAA01C62402}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3E2BEBE-A733-4BEB-95BD-18497400BF6E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3E2BEBE-A733-4BEB-95BD-18497400BF6E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3E2BEBE-A733-4BEB-95BD-18497400BF6E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3E2BEBE-A733-4BEB-95BD-18497400BF6E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A4672AA8-99EE-4013-8832-B1FAF380F688}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A4672AA8-99EE-4013-8832-B1FAF380F688}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A4672AA8-99EE-4013-8832-B1FAF380F688}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A4672AA8-99EE-4013-8832-B1FAF380F688}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B7E9417-C085-450B-912E-55A3518C698C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B7E9417-C085-450B-912E-55A3518C698C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B7E9417-C085-450B-912E-55A3518C698C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B7E9417-C085-450B-912E-55A3518C698C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8506913C-BABA-45BE-B6EB-2DDE2EE47FE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8506913C-BABA-45BE-B6EB-2DDE2EE47FE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8506913C-BABA-45BE-B6EB-2DDE2EE47FE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8506913C-BABA-45BE-B6EB-2DDE2EE47FE2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6F313B68-DE42-4F9D-9939-12793559CD7E} = {7C53E211-A57C-4B6E-8E95-DBB1591171A3}
+		{E093237F-5FA7-4FBA-B224-F06483730AC6} = {7C53E211-A57C-4B6E-8E95-DBB1591171A3}
+		{A7D775BA-06BC-459E-BA5C-C8BA76FD133D} = {7C53E211-A57C-4B6E-8E95-DBB1591171A3}
+		{E1ADF8F0-6CB7-41C6-AE0C-AFAA01C62402} = {7C53E211-A57C-4B6E-8E95-DBB1591171A3}
+		{A4672AA8-99EE-4013-8832-B1FAF380F688} = {7C53E211-A57C-4B6E-8E95-DBB1591171A3}
+		{8506913C-BABA-45BE-B6EB-2DDE2EE47FE2} = {E002A4D7-79E1-4B68-A10C-7B640058561F}
+	EndGlobalSection
+EndGlobal
