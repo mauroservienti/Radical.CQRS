@@ -4,20 +4,18 @@ using Jason.WebAPI.Validation;
 using Microsoft.Owin.Hosting;
 using Newtonsoft.Json.Serialization;
 using Owin;
-using Radical.Bootstrapper;
 using Radical.Bootstrapper.Windsor.AspNet.Infrastructure;
 using System;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Routing;
-using System.Web.OData.Builder;
-using System.Web.OData.Extensions;
+using Jason.WebAPI;
 
 namespace Radical.CQRS.Server
 {
 	public class ServerHost
 	{
-		ODataModelBuilder oDataModelBuilder;
+		//ODataModelBuilder oDataModelBuilder;
 		String probeDirectory;
 		IWindsorContainer windsor;
 		IDisposable owinHost = null;
@@ -28,12 +26,24 @@ namespace Radical.CQRS.Server
 			this.httpBaseAddress = httpBaseAddress;
 			this.probeDirectory = probeDirectory;
 			this.windsor = windsor;
+
+			this.CustomizeHttpConfiguration = cfg => { };
+			this.CustomizeAppBuilder = builder => { };
+			this.CustomizeJasonConfig = cfg => { };
+			this.CustomizeJasonWebAPIEndpoint= endpoint => { };
 		}
 
-		public void AddOData(ODataModelBuilder builder) 
-		{
-			this.oDataModelBuilder = builder;
-		}
+		//public void AddOData(ODataModelBuilder builder) 
+		//{
+		//	this.oDataModelBuilder = builder;
+		//}
+
+		public Action<HttpConfiguration> CustomizeHttpConfiguration { get; set; }
+		public Action<IAppBuilder> CustomizeAppBuilder { get; set; }
+
+		public Action<IJasonServerConfiguration> CustomizeJasonConfig { get; set; }
+
+		public Action<JasonWebAPIEndpoint> CustomizeJasonWebAPIEndpoint { get; set; }
 
 		public void Start()
 		{
@@ -55,15 +65,6 @@ namespace Radical.CQRS.Server
 				.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
 			config.MapHttpAttributeRoutes();
-
-			if( this.oDataModelBuilder != null )
-			{
-				config.MapODataServiceRoute(
-					routeName: "ODataRoute",
-					routePrefix: null,
-					model: this.oDataModelBuilder.GetEdmModel()
-				);
-			}
 
 			config.Routes.MapHttpRoute(
 				"DefaultApiWithId",
@@ -94,7 +95,11 @@ namespace Radical.CQRS.Server
 
 			config.DependencyResolver = new WindsorDependencyResolver( this.windsor );
 
+			this.CustomizeHttpConfiguration(config);
+
 			appBuilder.UseWebApi( config );
+
+			this.CustomizeAppBuilder( appBuilder );
 		}
 
 		void JasonConfig( HttpConfiguration config )
@@ -105,34 +110,19 @@ namespace Radical.CQRS.Server
 				//TypeFilter = t => !t.Is<ShopperFallbackCommandHandler>()
 			};
 
-			jasonConfig.AddEndpoint( new Jason.WebAPI.JasonWebAPIEndpoint( config )
+			var endpoint = new Jason.WebAPI.JasonWebAPIEndpoint(config)
 			{
-				IsCommandConvention = t =>
-				{
-					return t.Namespace != null
-						&& t.Namespace.EndsWith( ".Messages.Commands" );
-				},
-				//OnJasonRequest = e =>
-				//{
-				//	//if( !e.IsCommandInterceptor && !e.IsJasonExecute )
-				//	//{
-				//	//	return;
-				//	//}
+				IsCommandConvention = t => t.Namespace != null && t.Namespace.EndsWith(".Messages.Commands")
+			};
 
-				//	//if( !e.RequestContainsCorrelationId )
-				//	//{
-				//	//	e.CorrelationId = Guid.NewGuid().ToString();
-				//	//	e.AppendCorrelationIdToResponse = true;
-				//	//}
+			this.CustomizeJasonWebAPIEndpoint( endpoint );
 
-				//	//var operationContextManager = container.Resolve<IOperationContextManager>();
-				//	//var context = operationContextManager.GetCurrent();
-				//	//context.ForOperation( e.CorrelationId );
-				//}
-			} )
-			.UsingAsFallbackCommandValidator<ObjectDataAnnotationValidator>()
-				//.UsingAsFallbackCommandHandler<ShopperFallbackCommandHandler>()
-			.Initialize();
+			jasonConfig.AddEndpoint( endpoint )
+				.UsingAsFallbackCommandValidator<ObjectDataAnnotationValidator>();
+
+			this.CustomizeJasonConfig( jasonConfig );
+
+			jasonConfig.Initialize();
 		}
 
 		public void Stop()

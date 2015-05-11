@@ -9,6 +9,9 @@ using System.Data.Entity;
 using System.Diagnostics;
 using System.ServiceProcess;
 using System.Web.OData.Builder;
+using System.Web.OData.Extensions;
+using Microsoft.Owin.Cors;
+using Owin;
 using Radical.CQRS.Data;
 using Sample.ViewModels;
 
@@ -42,9 +45,6 @@ namespace Sample.Server
 			var bootstrapper = new WindsorBootstrapper( AppDomain.CurrentDomain.BaseDirectory );
 			var windsor = bootstrapper.Boot();
 
-			//Database.SetInitializer( new MigrateDatabaseToLatestVersion<DomainContext, Migrations.DomainContext.Configuration>() );
-			//Database.SetInitializer( new MigrateDatabaseToLatestVersion<PeopleViewDbContext, Migrations.PeopleViewDbContext.Configuration>() );
-
 			this.server = new ServerHost(
 				baseAddress,
 				bootstrapper.ProbeDirectory,
@@ -54,17 +54,32 @@ namespace Sample.Server
 			objectModelBuilder.EntitySet<Sample.ViewModels.PersonView>( "PeopleView" )
 				.EntityType.HasKey( p => p.Id );
 
-			this.server.AddOData( objectModelBuilder );
+			this.server.CustomizeHttpConfiguration = cfg =>
+			{
+				cfg.MapODataServiceRoute(
+						routeName: "ODataRoute",
+						routePrefix: null,
+						model: objectModelBuilder.GetEdmModel()
+					);
+			};
+
+			this.server.CustomizeAppBuilder = appBuilder =>
+			{
+				appBuilder.UseCors( CorsOptions.AllowAll );
+				appBuilder.MapSignalR();
+			};
+
 			this.server.Start();
 		}
 
 		protected override void OnStop()
 		{
-			if( this.server != null )
+			if (this.server == null)
 			{
-				this.server.Stop();
-				this.server = null;
+				return;
 			}
+			this.server.Stop();
+			this.server = null;
 		}
 	}
 }
