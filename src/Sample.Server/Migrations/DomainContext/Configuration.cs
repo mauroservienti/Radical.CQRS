@@ -1,6 +1,4 @@
-using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
-using System.Reflection;
 using Radical.CQRS.DbMigrations;
 
 namespace Sample.Server.Migrations.DomainContext

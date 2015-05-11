@@ -1,14 +1,14 @@
-﻿using Sample.Messages.Commands;
-using Radical.CQRS.Client;
-using System;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
+using Radical.CQRS.Client;
+using Sample.Messages.Commands;
+using Sample.ViewModels;
+using Simple.OData.Client;
 using Topics.Radical.Windows.Presentation;
 using Topics.Radical.Windows.Presentation.ComponentModel;
 using Topics.Radical.Windows.Presentation.Services.Validation;
-using Simple.OData.Client;
-using Sample.ViewModels;
-using System.Collections.ObjectModel;
 
 namespace Sample.WpfClient.Presentation
 {

@@ -1,18 +1,12 @@
-using Castle.Windsor;
-using Microsoft.Owin.Hosting;
-using Radical.Bootstrapper;
-using Radical.CQRS.Server;
 using System;
-using System.Linq;
 using System.Configuration;
-using System.Data.Entity;
-using System.Diagnostics;
 using System.ServiceProcess;
 using System.Web.OData.Builder;
 using System.Web.OData.Extensions;
 using Microsoft.Owin.Cors;
 using Owin;
-using Radical.CQRS.Data;
+using Radical.Bootstrapper;
+using Radical.CQRS.Server;
 using Sample.ViewModels;
 
 namespace Sample.Server
@@ -69,7 +63,7 @@ namespace Sample.Server
 		static void AddODataSupport( ServerHost server )
 		{
 			var objectModelBuilder = new ODataConventionModelBuilder();
-			objectModelBuilder.EntitySet<Sample.ViewModels.PersonView>( "PeopleView" )
+			objectModelBuilder.EntitySet<PersonView>( "PeopleView" )
 				.EntityType.HasKey( p => p.Id );
 
 			server.AddHttpConfigurationCustomization( cfg =>

@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Sample.WpfClient.Presentation;
 using Topics.Radical.Windows.Presentation.Boot;
 
 namespace Sample.WpfClient
@@ -10,7 +11,7 @@ namespace Sample.WpfClient
 	{
 		public App()
 		{
-			var bootstrapper = new WindsorApplicationBootstrapper<Presentation.MainView>();
+			var bootstrapper = new WindsorApplicationBootstrapper<MainView>();
 		}
 	}
 }

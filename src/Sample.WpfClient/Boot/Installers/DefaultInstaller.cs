@@ -1,15 +1,10 @@
-﻿using Castle.MicroKernel.Registration;
+﻿using System.ComponentModel.Composition;
+using System.Configuration;
+using Castle.MicroKernel.Registration;
 using Castle.MicroKernel.SubSystems.Configuration;
 using Castle.Windsor;
 using Radical.CQRS.Client;
 using Simple.OData.Client;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.Composition;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Sample.WpfClient.Boot.Installers
 {

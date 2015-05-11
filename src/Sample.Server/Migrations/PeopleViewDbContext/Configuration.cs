@@ -3,7 +3,7 @@ using Radical.CQRS.DbMigrations;
 
 namespace Sample.Server.Migrations.PeopleViewDbContext
 {
-	internal sealed class Configuration : DbMigrationsConfiguration<Sample.ViewModels.PeopleViewDbContext>
+	internal sealed class Configuration : DbMigrationsConfiguration<ViewModels.PeopleViewDbContext>
 	{
 		public Configuration()
 		{
@@ -11,7 +11,7 @@ namespace Sample.Server.Migrations.PeopleViewDbContext
 			SetSqlGenerator( "System.Data.SqlClient", new CustomSqlServerMigrationSqlGenerator() );
 		}
 
-		protected override void Seed(Sample.ViewModels.PeopleViewDbContext context)
+		protected override void Seed(ViewModels.PeopleViewDbContext context)
 		{
 			//  This method will be called after migrating to the latest version.
 

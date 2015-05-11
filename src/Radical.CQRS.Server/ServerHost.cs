@@ -1,16 +1,16 @@
+using System;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Routing;
 using Castle.Windsor;
 using Jason.Configuration;
+using Jason.WebAPI;
 using Jason.WebAPI.Validation;
 using Microsoft.Owin.Hosting;
 using Newtonsoft.Json.Serialization;
 using Owin;
 using Radical.Bootstrapper.Windsor.AspNet.Infrastructure;
-using System;
-using System.Net.Http;
-using System.Web.Http;
-using System.Web.Http.Routing;
-using Jason.WebAPI;
-using System.Collections.Generic;
 
 namespace Radical.CQRS.Server
 {
@@ -119,7 +119,7 @@ namespace Radical.CQRS.Server
 				//TypeFilter = t => !t.Is<ShopperFallbackCommandHandler>()
 			};
 
-			var endpoint = new Jason.WebAPI.JasonWebAPIEndpoint( config )
+			var endpoint = new JasonWebAPIEndpoint( config )
 			{
 				IsCommandConvention = t => t.Namespace != null && t.Namespace.EndsWith( ".Messages.Commands" )
 			};

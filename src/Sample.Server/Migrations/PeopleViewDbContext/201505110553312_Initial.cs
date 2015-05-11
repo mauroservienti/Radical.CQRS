@@ -1,9 +1,8 @@
+using System.Data.Entity.Migrations;
+using Radical.CQRS.DbMigrations;
+
 namespace Sample.Server.Migrations.PeopleViewDbContext
 {
-	using System;
-	using System.Data.Entity.Migrations;
-	using Radical.CQRS.DbMigrations;
-
 	public partial class Initial : DbMigration
 	{
 		public override void Up()

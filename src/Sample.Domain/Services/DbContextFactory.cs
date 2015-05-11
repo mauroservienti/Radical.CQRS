@@ -1,12 +1,6 @@
-﻿using Radical.CQRS;
-using Radical.CQRS.Data;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.Infrastructure;
-using System.Linq;
+﻿using System.Data.Entity.Infrastructure;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
+using Radical.CQRS.Data;
 
 namespace Sample.Domain.Services
 {

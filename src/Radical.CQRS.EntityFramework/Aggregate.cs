@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 using Radical.CQRS.Reflection;
 
 namespace Radical.CQRS
@@ -26,7 +26,7 @@ namespace Radical.CQRS
         Guid IAggregate.Id { get { return this.Id; } }
 
         [NotMapped]
-        public Boolean IsChanged { get { return this._uncommittedEvents.Any(); } }
+        public bool IsChanged { get { return this._uncommittedEvents.Any(); } }
 
 	    readonly List<IDomainEvent> _uncommittedEvents = new List<IDomainEvent>();
 

@@ -1,11 +1,7 @@
-﻿using Sample.ViewModels;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Web.Http;
 using System.Web.OData;
+using Sample.ViewModels;
 
 namespace Sample.Server.Controllers
 {
