@@ -6,9 +6,9 @@ using System.Text;
 
 namespace Sample.Domain.People
 {
-    public interface IPersonaCreata : IDomainEvent
+    public interface IPersonCreated : IDomainEvent
     {
 
-        string NuovoNome { get; set; }
+        string Name { get; set; }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Threading;
 using Topics.Radical.Linq;
@@ -53,7 +54,7 @@ namespace Radical.CQRS.Services
                             {
                                 EventId = e.Id,
                                 AggregateId = aggregate.Id,
-                                TransactionId = this.txId.ToString(),
+                                TransactionId = this.txId,
                                 PublishedOn = e.OccurredAt,
                                 EventType = ConcreteProxyCreator.GetValidTypeName(e.GetType()),
                                 EventBlob = JsonConvert.SerializeObject(e),
@@ -111,9 +112,9 @@ namespace Radical.CQRS.Services
             }
         }
 
-        readonly IDbContextFactory factory;
+        readonly IDbContextFactory<Data.DomainContext> factory;
 
-        public RepositoryFactory(IDbContextFactory factory)
+		public RepositoryFactory( IDbContextFactory<Data.DomainContext> factory )
         {
             this.factory = factory;
         }

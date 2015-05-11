@@ -8,34 +8,36 @@ using System.Threading.Tasks;
 
 namespace Sample.Domain.People
 {
-    public class Person: Aggregate
-    {
+	public class Person : Aggregate
+	{
 		protected override Guid Id { get; set; }
 
-        internal Person()
-        {
-
-        }
-
-        public static Person CreateNew(string nome)
-        {
-            var p = new Person();
-            p.Nome = nome;
-            p.SetupCompleted();
-            return p;            
-        }
-
-		private void SetupCompleted()
+		internal Person()
 		{
-			this.RaiseEvent<IPersonaCreata>( e => e.NuovoNome = this.Nome );
+
 		}
 
-        private string Nome { get; set; }
+		public static Person CreateNew( string nome )
+		{
+			return new Person
+			{
+				Name = nome
+			}.SetupCompleted();
+		}
 
-        public void CambiaNome(string nome)
-        {
-            this.Nome = nome;
-            this.RaiseEvent<INomeCambiato>(e => e.NuovoNome = nome);
-        }
+		private Person SetupCompleted()
+		{
+			this.RaiseEvent<IPersonCreated>( e => e.Name = this.Name );
+
+			return this;
+		}
+
+		private string Name { get; set; }
+
+		public void CambiaNome( string nome )
+		{
+			this.Name = nome;
+			this.RaiseEvent<IPersonNameChanged>( e => e.NewName = nome );
+		}
 	}
 }

@@ -5,9 +5,12 @@ using Radical.CQRS.Server;
 using System;
 using System.Linq;
 using System.Configuration;
+using System.Data.Entity;
 using System.Diagnostics;
 using System.ServiceProcess;
 using System.Web.OData.Builder;
+using Radical.CQRS.Data;
+using Sample.ViewModels;
 
 namespace Sample.Server
 {
@@ -38,6 +41,9 @@ namespace Sample.Server
 
 			var bootstrapper = new WindsorBootstrapper( AppDomain.CurrentDomain.BaseDirectory );
 			var windsor = bootstrapper.Boot();
+
+			//Database.SetInitializer( new MigrateDatabaseToLatestVersion<DomainContext, Migrations.DomainContext.Configuration>() );
+			//Database.SetInitializer( new MigrateDatabaseToLatestVersion<PeopleViewDbContext, Migrations.PeopleViewDbContext.Configuration>() );
 
 			this.server = new ServerHost(
 				baseAddress,

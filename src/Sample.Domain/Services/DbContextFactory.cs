@@ -2,6 +2,7 @@
 using Radical.CQRS.Data;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -9,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace Sample.Domain.Services
 {
-    class DbContextFactory : IDbContextFactory
+	public class DbContextFactory : IDbContextFactory<DomainContext>
     {
-        public System.Data.Entity.DbContext Create()
+		public DomainContext Create()
         {
-            return new StateContext(Assembly.GetExecutingAssembly());
+            return new DomainContext(Assembly.GetExecutingAssembly());
         }
     }
 }

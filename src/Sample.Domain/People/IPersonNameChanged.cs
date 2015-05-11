@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Sample.Domain.People
 {
-    public interface INomeCambiato: IDomainEvent
+    public interface IPersonNameChanged: IDomainEvent
     {
-        string NuovoNome { get; set; }
+        string NewName { get; set; }
     }
 }

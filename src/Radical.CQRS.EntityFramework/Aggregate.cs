@@ -17,15 +17,18 @@ namespace Radical.CQRS
         protected internal abstract Guid Id { get; set; }
         protected internal virtual int Version { get; set; }
 
+		[Timestamp]
+		protected internal virtual byte[] RowVersion { get; set; }
+
         [NotMapped]
         int IAggregate.Version { get { return this.Version; } }
         [NotMapped]
         Guid IAggregate.Id { get { return this.Id; } }
 
         [NotMapped]
-        public Boolean IsChanged { get { return this.uncommittedEvents.Any(); } }
+        public Boolean IsChanged { get { return this._uncommittedEvents.Any(); } }
 
-        List<IDomainEvent> uncommittedEvents = new List<IDomainEvent>();
+	    readonly List<IDomainEvent> _uncommittedEvents = new List<IDomainEvent>();
 
         protected Aggregate()
         {
@@ -34,12 +37,12 @@ namespace Radical.CQRS
 
         IEnumerable<IDomainEvent> IAggregate.GetUncommittedEvents()
         {
-            return this.uncommittedEvents.ToArray();
+            return this._uncommittedEvents.ToArray();
         }
 
         void IAggregate.ClearUncommittedEvents()
         {
-            this.uncommittedEvents.Clear();
+            this._uncommittedEvents.Clear();
         }
 
         protected void RaiseEvent<TEvent>(Action<TEvent> builder) where TEvent : IDomainEvent
@@ -53,24 +56,23 @@ namespace Radical.CQRS
 
             builder(@event);
 
-            this.uncommittedEvents.Add(@event);
+            this._uncommittedEvents.Add(@event);
             this.Version = newVersion;
         }
 
-        public override Int32 GetHashCode()
+        public override int GetHashCode()
         {
             return this.Id.GetHashCode();
         }
 
-        public override Boolean Equals(object obj)
+        public override bool Equals(object obj)
         {
             return this.Equals(obj as IAggregate);
         }
 
-        public virtual Boolean Equals(IAggregate other)
+		public virtual bool Equals( IAggregate other )
         {
             return other != null && other.Id == this.Id;
         }
-        //TState IHaveState<TState>.State { get; set; }
     }
 }

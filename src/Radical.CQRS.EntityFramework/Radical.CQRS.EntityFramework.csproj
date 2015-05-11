@@ -54,9 +54,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Aggregate.cs" />
-    <Compile Include="Data\StateContext.cs" />
+    <Compile Include="Data\DomainContext.cs" />
+    <Compile Include="DbMigrations\DropViewOperation.cs" />
+    <Compile Include="DbMigrations\CreateViewOperation.cs" />
+    <Compile Include="DbMigrations\CustomSqlServerMigrationSqlGenerator.cs" />
     <Compile Include="DomainEventCommit.cs" />
-    <Compile Include="IDbContextFactory.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\RepositoryFactory.cs" />
   </ItemGroup>

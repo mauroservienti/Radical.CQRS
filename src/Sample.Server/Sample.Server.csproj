@@ -153,6 +153,16 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\PeopleViewController.cs" />
+    <Compile Include="Migrations\DomainContext\201505110628268_Initial.cs" />
+    <Compile Include="Migrations\DomainContext\201505110628268_Initial.Designer.cs">
+      <DependentUpon>201505110628268_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\DomainContext\Configuration.cs" />
+    <Compile Include="Migrations\PeopleViewDbContext\201505110553312_Initial.cs" />
+    <Compile Include="Migrations\PeopleViewDbContext\201505110553312_Initial.Designer.cs">
+      <DependentUpon>201505110553312_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\PeopleViewDbContext\Configuration.cs" />
     <Compile Include="ProgramService.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -187,6 +197,14 @@
       <Project>{653a6247-a969-494c-abbb-4287ffb729d9}</Project>
       <Name>Radical.CQRS</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\DomainContext\201505110628268_Initial.resx">
+      <DependentUpon>201505110628268_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\PeopleViewDbContext\201505110553312_Initial.resx">
+      <DependentUpon>201505110553312_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
