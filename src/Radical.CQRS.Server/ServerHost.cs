@@ -10,6 +10,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Routing;
 using Jason.WebAPI;
+using System.Collections.Generic;
 
 namespace Radical.CQRS.Server
 {
@@ -21,43 +22,51 @@ namespace Radical.CQRS.Server
 		IDisposable owinHost = null;
 		String httpBaseAddress;
 
+		List<Action<HttpConfiguration>> httpConfigurationCustomizations = new List<Action<HttpConfiguration>>();
+		List<Action<IAppBuilder>> appBuilderCustomizations = new List<Action<IAppBuilder>>();
+		List<Action<IJasonServerConfiguration>> jasonServerConfigurationCustomizations = new List<Action<IJasonServerConfiguration>>();
+		List<Action<JasonWebAPIEndpoint>> jasonWebAPIEndpointCustomizations = new List<Action<JasonWebAPIEndpoint>>();
+
 		public ServerHost( String httpBaseAddress, String probeDirectory, IWindsorContainer windsor )
 		{
 			this.httpBaseAddress = httpBaseAddress;
 			this.probeDirectory = probeDirectory;
 			this.windsor = windsor;
-
-			this.CustomizeHttpConfiguration = cfg => { };
-			this.CustomizeAppBuilder = builder => { };
-			this.CustomizeJasonConfig = cfg => { };
-			this.CustomizeJasonWebAPIEndpoint= endpoint => { };
 		}
 
-		//public void AddOData(ODataModelBuilder builder) 
-		//{
-		//	this.oDataModelBuilder = builder;
-		//}
+		public void AddHttpConfigurationCustomization( Action<HttpConfiguration> customization )
+		{
+			this.httpConfigurationCustomizations.Add(customization);
+		}
 
-		public Action<HttpConfiguration> CustomizeHttpConfiguration { get; set; }
-		public Action<IAppBuilder> CustomizeAppBuilder { get; set; }
+		public void AddAppBuilderCustomization( Action<IAppBuilder> customization )
+		{
+			this.appBuilderCustomizations.Add( customization );
+		}
 
-		public Action<IJasonServerConfiguration> CustomizeJasonConfig { get; set; }
+		public void AddJasonServerConfigurationCustomization( Action<IJasonServerConfiguration> customization )
+		{
+			this.jasonServerConfigurationCustomizations.Add( customization );
+		}
 
-		public Action<JasonWebAPIEndpoint> CustomizeJasonWebAPIEndpoint { get; set; }
+		public void AddJasonWebAPIEndpointCustomization( Action<JasonWebAPIEndpoint> customization )
+		{
+			this.jasonWebAPIEndpointCustomizations.Add( customization );
+		}
 
 		public void Start()
 		{
 			// Start OWIN host 
-			this.owinHost = WebApp.Start( this.httpBaseAddress, appBuilder => 
+			this.owinHost = WebApp.Start( this.httpBaseAddress, appBuilder =>
 			{
 				var config = new HttpConfiguration();
 
 				this.WebApiConfig( config, appBuilder );
-				this.JasonConfig(config);
+				this.JasonConfig( config );
 			} );
 		}
 
-		void WebApiConfig(HttpConfiguration config, IAppBuilder appBuilder )
+		void WebApiConfig( HttpConfiguration config, IAppBuilder appBuilder )
 		{
 			config.Formatters
 				.JsonFormatter
@@ -95,11 +104,11 @@ namespace Radical.CQRS.Server
 
 			config.DependencyResolver = new WindsorDependencyResolver( this.windsor );
 
-			this.CustomizeHttpConfiguration(config);
+			this.httpConfigurationCustomizations.ForEach( c => c( config ) );
 
 			appBuilder.UseWebApi( config );
 
-			this.CustomizeAppBuilder( appBuilder );
+			this.appBuilderCustomizations.ForEach( c => c( appBuilder ) );
 		}
 
 		void JasonConfig( HttpConfiguration config )
@@ -110,17 +119,17 @@ namespace Radical.CQRS.Server
 				//TypeFilter = t => !t.Is<ShopperFallbackCommandHandler>()
 			};
 
-			var endpoint = new Jason.WebAPI.JasonWebAPIEndpoint(config)
+			var endpoint = new Jason.WebAPI.JasonWebAPIEndpoint( config )
 			{
-				IsCommandConvention = t => t.Namespace != null && t.Namespace.EndsWith(".Messages.Commands")
+				IsCommandConvention = t => t.Namespace != null && t.Namespace.EndsWith( ".Messages.Commands" )
 			};
 
-			this.CustomizeJasonWebAPIEndpoint( endpoint );
+			this.jasonWebAPIEndpointCustomizations.ForEach( c => c( endpoint ) );
 
 			jasonConfig.AddEndpoint( endpoint )
 				.UsingAsFallbackCommandValidator<ObjectDataAnnotationValidator>();
 
-			this.CustomizeJasonConfig( jasonConfig );
+			this.jasonServerConfigurationCustomizations.ForEach( c => c( jasonConfig ) );
 
 			jasonConfig.Initialize();
 		}

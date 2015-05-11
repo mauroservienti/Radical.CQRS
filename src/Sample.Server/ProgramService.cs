@@ -19,7 +19,7 @@ namespace Sample.Server
 {
 	class ProgramService : ServiceBase
 	{
-		ServerHost server = null;
+		ServerHost _server = null;
 
 		static void Main()
 		{
@@ -38,48 +38,57 @@ namespace Sample.Server
 			}
 		}
 
+		protected override void OnStop()
+		{
+			if( this._server == null )
+			{
+				return;
+			}
+			this._server.Stop();
+			this._server = null;
+		}
+
 		protected override void OnStart( string[] args )
 		{
-			string baseAddress = ConfigurationManager.AppSettings[ "owin/baseAddress" ];
+			var baseAddress = ConfigurationManager.AppSettings[ "owin/baseAddress" ];
 
 			var bootstrapper = new WindsorBootstrapper( AppDomain.CurrentDomain.BaseDirectory );
 			var windsor = bootstrapper.Boot();
 
-			this.server = new ServerHost(
+			this._server = new ServerHost(
 				baseAddress,
 				bootstrapper.ProbeDirectory,
 				windsor );
 
+			AddODataSupport( this._server );
+			AddSignalRSupport( this._server );
+
+			this._server.Start();
+		}
+
+		static void AddODataSupport( ServerHost server )
+		{
 			var objectModelBuilder = new ODataConventionModelBuilder();
 			objectModelBuilder.EntitySet<Sample.ViewModels.PersonView>( "PeopleView" )
 				.EntityType.HasKey( p => p.Id );
 
-			this.server.CustomizeHttpConfiguration = cfg =>
+			server.AddHttpConfigurationCustomization( cfg =>
 			{
 				cfg.MapODataServiceRoute(
 						routeName: "ODataRoute",
 						routePrefix: null,
 						model: objectModelBuilder.GetEdmModel()
 					);
-			};
+			} );
+		}
 
-			this.server.CustomizeAppBuilder = appBuilder =>
+		static void AddSignalRSupport( ServerHost server )
+		{
+			server.AddAppBuilderCustomization( appBuilder =>
 			{
 				appBuilder.UseCors( CorsOptions.AllowAll );
 				appBuilder.MapSignalR();
-			};
-
-			this.server.Start();
-		}
-
-		protected override void OnStop()
-		{
-			if (this.server == null)
-			{
-				return;
-			}
-			this.server.Stop();
-			this.server = null;
+			} );
 		}
 	}
 }
