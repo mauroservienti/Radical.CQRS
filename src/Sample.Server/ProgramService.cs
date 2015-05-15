@@ -8,6 +8,7 @@ using Owin;
 using Radical.Bootstrapper;
 using Radical.CQRS.Server;
 using Sample.ViewModels;
+using Microsoft.AspNet.SignalR;
 
 namespace Sample.Server
 {

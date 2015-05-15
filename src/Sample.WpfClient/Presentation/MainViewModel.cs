@@ -47,7 +47,8 @@ namespace Sample.WpfClient.Presentation
 				return;
 			}
 
-			var key = await this.jason.ExecuteAsync<Guid>( new CreateNewPerson()
+			String cid = Guid.NewGuid().ToString();
+			var key = await this.jason.ExecuteAsync<Guid>( cid, new CreateNewPerson()
 			{
 				Name = this.Name
 			} );

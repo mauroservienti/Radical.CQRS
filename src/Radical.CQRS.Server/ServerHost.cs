@@ -121,7 +121,24 @@ namespace Radical.CQRS.Server
 
 			var endpoint = new JasonWebAPIEndpoint( config )
 			{
-				IsCommandConvention = t => t.Namespace != null && t.Namespace.EndsWith( ".Messages.Commands" )
+				IsCommandConvention = t => t.Namespace != null && t.Namespace.EndsWith( ".Messages.Commands" ),
+				OnJasonRequest = e =>
+				{
+					if( !e.IsCommandInterceptor && !e.IsJasonExecute )
+					{
+						return;
+					}
+
+					if( !e.RequestContainsCorrelationId )
+					{
+						e.CorrelationId = Guid.NewGuid().ToString();
+						e.AppendCorrelationIdToResponse = true;
+					}
+
+					var operationContextManager = this.windsor.Resolve<IOperationContextManager>();
+					var context = operationContextManager.GetCurrent();
+					context.ForOperation( e.CorrelationId );
+				}
 			};
 
 			this.jasonWebAPIEndpointCustomizations.ForEach( c => c( endpoint ) );

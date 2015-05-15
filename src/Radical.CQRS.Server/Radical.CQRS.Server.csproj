@@ -135,8 +135,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Boot\Installers\DefaultInstaller.cs" />
+    <Compile Include="Runtime\OperationContext.cs" />
     <Compile Include="ServerHost.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\OperationContextManager.cs" />
     <Compile Include="WindsorJasonContainerProxy.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -145,7 +148,12 @@
     </None>
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Radical.CQRS\Radical.CQRS.csproj">
+      <Project>{653a6247-a969-494c-abbb-4287ffb729d9}</Project>
+      <Name>Radical.CQRS</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>if exist "$(SolutionDir)build\$(ConfigurationName)\$(ProjectName)\lib\net45". (

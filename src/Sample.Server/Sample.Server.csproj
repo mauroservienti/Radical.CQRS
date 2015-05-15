@@ -172,6 +172,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interceptors\PushToSignalRCommandInterceptor.cs" />
+    <Compile Include="Push\ClientNotificastionsHub.cs" />
     <Compile Include="Controllers\PeopleViewController.cs" />
     <Compile Include="Migrations\DomainContext\201505110628268_Initial.cs" />
     <Compile Include="Migrations\DomainContext\201505110628268_Initial.Designer.cs">
@@ -187,6 +189,7 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Push\Notifications.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
