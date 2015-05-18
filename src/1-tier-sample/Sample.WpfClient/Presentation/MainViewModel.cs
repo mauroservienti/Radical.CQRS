@@ -10,16 +10,18 @@ using Topics.Radical.Windows.Presentation.Services.Validation;
 using Radical.CQRS;
 using Sample.Domain.People;
 using System.Data.Entity;
+using Sample.Messages.Commands;
+using Jason.Client.ComponentModel;
 
 namespace Sample.WpfClient.Presentation
 {
 	class MainViewModel : AbstractViewModel, ICanBeValidated, IExpectViewLoadedCallback
 	{
-		readonly IRepositoryFactory repositoryFactory;
+		readonly IWorkerServiceClientFactory _clientFactory;
 
-		public MainViewModel( IRepositoryFactory repositoryFactory )
+		public MainViewModel( IWorkerServiceClientFactory clientFactory )
 		{
-			this.repositoryFactory = repositoryFactory;
+			this._clientFactory = clientFactory;
 			this.People = new ObservableCollection<PersonView>();
 		}
 
@@ -45,22 +47,18 @@ namespace Sample.WpfClient.Presentation
 				return;
 			}
 
-			Guid key;
-
-			using( var repository = this.repositoryFactory.OpenAsyncSession() )
+			using( var client = this._clientFactory.CreateClient() )
 			{
-				var aPerson = Person.CreateNew( this.Name );
+				var key = ( Guid )client.Execute( new CreateNewPerson()
+				{
+					Name = this.Name
+				} );
 
-				repository.Add( aPerson );
-				await repository.CommitChangesAsync();
-
-				key = aPerson.GetKey();
-			}
-
-			using( var db = new PeopleViewDbContext() )
-			{
-				var result = await db.PeopleView.SingleAsync( p => p.Id == key );
-				this.People.Insert( 0, result );
+				using( var db = new PeopleViewDbContext() )
+				{
+					var result = await db.PeopleView.SingleAsync( p => p.Id == key );
+					this.People.Insert( 0, result );
+				}
 			}
 		}
 

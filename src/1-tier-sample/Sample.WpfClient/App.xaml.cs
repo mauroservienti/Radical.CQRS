@@ -2,6 +2,10 @@
 using Sample.WpfClient.Presentation;
 using Topics.Radical.Windows.Presentation.Boot;
 using System.Net;
+using Castle;
+using Jason.Configuration;
+using Jason.Windsor;
+using Topics.Radical.Windows.Presentation.Helpers;
 
 namespace Sample.WpfClient
 {
@@ -14,7 +18,22 @@ namespace Sample.WpfClient
 		{
 			ServicePointManager.DefaultConnectionLimit = 10;
 
-			var bootstrapper = new WindsorApplicationBootstrapper<MainView>();
+			new WindsorApplicationBootstrapper<MainView>()
+				.OnBoot( container =>
+				{
+					var probeDirectory = EnvironmentHelper.GetCurrentDirectory();
+					var wrapper = ( ServiceProviderWrapper )container;
+
+					new DefaultJasonServerConfiguration( probeDirectory )
+					{
+						Container = new WindsorJasonContainerProxy( wrapper.Container ),
+						//TypeFilter = t => !t.Is<ShopperFallbackCommandHandler>()
+					}
+					.AddEndpoint( new Jason.Client.JasonInProcessEndpoint() )
+					.Initialize();
+
+					//.UsingAsFallbackCommandValidator<ObjectDataAnnotationValidator>();
+				} );
 		}
 	}
 }

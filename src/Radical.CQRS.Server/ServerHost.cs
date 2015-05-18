@@ -7,6 +7,7 @@ using Castle.Windsor;
 using Jason.Configuration;
 using Jason.WebAPI;
 using Jason.WebAPI.Validation;
+using Jason.Windsor;
 using Microsoft.Owin.Hosting;
 using Newtonsoft.Json.Serialization;
 using Owin;
@@ -16,16 +17,15 @@ namespace Radical.CQRS.Server
 {
 	public class ServerHost
 	{
-		//ODataModelBuilder oDataModelBuilder;
 		String probeDirectory;
 		IWindsorContainer windsor;
 		IDisposable owinHost = null;
 		String httpBaseAddress;
 
-		List<Action<HttpConfiguration>> httpConfigurationCustomizations = new List<Action<HttpConfiguration>>();
-		List<Action<IAppBuilder>> appBuilderCustomizations = new List<Action<IAppBuilder>>();
-		List<Action<IJasonServerConfiguration>> jasonServerConfigurationCustomizations = new List<Action<IJasonServerConfiguration>>();
-		List<Action<JasonWebAPIEndpoint>> jasonWebAPIEndpointCustomizations = new List<Action<JasonWebAPIEndpoint>>();
+		readonly List<Action<HttpConfiguration>> httpConfigurationCustomizations = new List<Action<HttpConfiguration>>();
+		readonly List<Action<IAppBuilder>> appBuilderCustomizations = new List<Action<IAppBuilder>>();
+		readonly List<Action<IJasonServerConfiguration>> jasonServerConfigurationCustomizations = new List<Action<IJasonServerConfiguration>>();
+		readonly List<Action<JasonWebAPIEndpoint>> jasonWebAPIEndpointCustomizations = new List<Action<JasonWebAPIEndpoint>>();
 
 		public ServerHost( String httpBaseAddress, String probeDirectory, IWindsorContainer windsor )
 		{

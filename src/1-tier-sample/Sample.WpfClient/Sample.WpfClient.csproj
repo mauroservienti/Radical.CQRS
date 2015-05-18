@@ -51,6 +51,22 @@
       <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Jason, Version=0.4.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Jason.0.4.0.1-Beta\lib\net40\Jason.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Jason.Client.InProcess, Version=0.4.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Jason.Client.InProcess.0.4.0.1-Beta\lib\net40\Jason.Client.InProcess.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Jason.Tools, Version=0.4.0.1, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Jason.Tools.0.4.0.1-Beta\lib\net40\Jason.Tools.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Jason.Windsor, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Jason.Windsor.1.0.0.0-Beta\lib\net40\Jason.Windsor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Radical, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Radical.1.5.1.0\lib\net45\Radical.dll</HintPath>
       <Private>True</Private>
@@ -107,7 +123,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Boot\Installers\DefaultInstaller.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -161,6 +176,10 @@
     <ProjectReference Include="..\Sample.Domain\Sample.Domain.csproj">
       <Project>{a3dac0ff-6c09-4c98-9b0e-d01bf986769c}</Project>
       <Name>Sample.Domain</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Sample.Messages\Sample.Messages.csproj">
+      <Project>{6faac3d2-3aff-4291-b15a-e0857577450b}</Project>
+      <Name>Sample.Messages</Name>
     </ProjectReference>
     <ProjectReference Include="..\Sample.ViewModels\Sample.ViewModels.csproj">
       <Project>{412c0cd9-f3b7-4519-a1a0-c90234d5ee1f}</Project>
