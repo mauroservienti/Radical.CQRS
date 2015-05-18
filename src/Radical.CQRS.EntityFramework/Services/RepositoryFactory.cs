@@ -13,7 +13,7 @@ namespace Radical.CQRS.Services
             this._factory = factory;
         }
 
-        public IRepository OpenSession()
+        public IRepository OpenAsyncSession()
         {
             var db = this._factory.Create();
             return new Repository(db);

@@ -2,6 +2,6 @@
 {
     public interface IRepositoryFactory
     {
-        IRepository OpenSession();
+        IRepository OpenAsyncSession();
     }
 }

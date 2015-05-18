@@ -11,12 +11,12 @@ namespace Sample.Domain.Handlers
 
 		protected override object OnExecute( CreateNewPerson command )
 		{
-			using( var repository = RepositoryFactory.OpenSession() )
+			using( var repository = RepositoryFactory.OpenAsyncSession() )
 			{
 				var aPerson = Person.CreateNew( command.Name );
 
 				repository.Add( aPerson );
-				repository.CommitChanges();
+				repository.CommitChangesAsync().Wait();
 
 				return aPerson.GetKey();
 			}

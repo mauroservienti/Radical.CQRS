@@ -5,6 +5,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using Radical.CQRS.Reflection;
 using Topics.Radical.Linq;
+using System.Threading.Tasks;
 
 namespace Radical.CQRS.Runtime
 {
@@ -31,12 +32,12 @@ namespace Radical.CQRS.Runtime
 			this.TrackIfRequired( aggregate );
 		}
 
-		public override void CommitChanges()
+		public override async Task CommitChangesAsync()
 		{
 			try
 			{
 				var db = this._session.Set<DomainEventCommit>();
-				
+
 				this.AggregateTracking
 					.Where( a => a.IsChanged )
 					.Select( aggregate => new
@@ -60,7 +61,7 @@ namespace Radical.CQRS.Runtime
 						db.Add( temp );
 					} );
 
-				this._session.SaveChanges();
+				await this._session.SaveChangesAsync();
 
 				this.AggregateTracking.ForEach( a => a.ClearUncommittedEvents() );
 				this.AggregateTracking.Clear();
@@ -73,25 +74,26 @@ namespace Radical.CQRS.Runtime
 			}
 		}
 
-		public override TAggregate GetById<TAggregate>( Guid aggregateId )
+		public override async Task<TAggregate> GetByIdAsync<TAggregate>( Guid aggregateId )
 		{
 			var db = this._session.Set<TAggregate>();
-			var aggregate = db.Single(a => a.Id == aggregateId);
+			var aggregate = await db.SingleAsync( a => a.Id == aggregateId );
 			this.TrackIfRequired( aggregate );
 
 			return aggregate;
 		}
 
-		public override IEnumerable<TAggregate> GetById<TAggregate>( params Guid[] aggregateIds )
+		public override async Task<IEnumerable<TAggregate>> GetByIdAsync<TAggregate>( params Guid[] aggregateIds )
 		{
 			var db = this._session.Set<TAggregate>();
-			var aggregates = db.Where( a => aggregateIds.Contains( a.Id ) );
+			var aggregates = await db.Where( a => aggregateIds.Contains( a.Id ) )
+				.ToListAsync();
 			foreach( var a in aggregates )
 			{
 				this.TrackIfRequired( a );
 			}
 
-			return aggregates.AsEnumerable();
+			return aggregates;
 		}
 	}
 }

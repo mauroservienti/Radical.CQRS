@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Radical.CQRS
 {
@@ -28,14 +29,14 @@ namespace Radical.CQRS
 
 		public abstract void Add<TAggregate>(TAggregate aggregate) where TAggregate : class, IAggregate;
 
-		public abstract void CommitChanges();
+		public abstract Task CommitChangesAsync();
 
-		public virtual TAggregate GetById<TAggregate>( Guid aggregateId ) where TAggregate : class, IAggregate
+		public virtual async Task<TAggregate> GetByIdAsync<TAggregate>( Guid aggregateId ) where TAggregate : class, IAggregate
 		{
-			return this.GetById<TAggregate>(new[] {aggregateId}).Single();
+			return (await this.GetByIdAsync<TAggregate>(new[] {aggregateId})).Single();
 		}
 
-		public abstract IEnumerable<TAggregate> GetById<TAggregate>(params Guid[] aggregateIds)
+		public abstract Task<IEnumerable<TAggregate>> GetByIdAsync<TAggregate>(params Guid[] aggregateIds)
 			where TAggregate : class, IAggregate;
 	}
 }
