@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Radical.CQRS
 {
-	public abstract class AbstractRepository : IAsyncRepository, IRepository
+	public abstract class AbstractRepository
 	{
 		public virtual void Dispose()
 		{
@@ -28,34 +28,31 @@ namespace Radical.CQRS
 		}
 
 		public abstract void Add<TAggregate>(TAggregate aggregate) where TAggregate : class, IAggregate;
+	}
 
+	public abstract class AbstractAsyncRepository : AbstractRepository, IAsyncRepository
+	{
 		public abstract Task CommitChangesAsync();
 
 		public virtual async Task<TAggregate> GetByIdAsync<TAggregate>( Guid aggregateId ) where TAggregate : class, IAggregate
 		{
-			return (await this.GetByIdAsync<TAggregate>(new[] {aggregateId})).Single();
+			return ( await this.GetByIdAsync<TAggregate>( new[] { aggregateId } ) ).Single();
 		}
 
-		public abstract Task<IEnumerable<TAggregate>> GetByIdAsync<TAggregate>(params Guid[] aggregateIds)
-			where TAggregate : class, IAggregate;
+		public abstract Task<IEnumerable<TAggregate>> GetByIdAsync<TAggregate>( params Guid[] aggregateIds )
+			where TAggregate : class, IAggregate;		
+	}
 
-
-		public virtual void CommitChanges()
-		{
-			this.CommitChangesAsync().Wait();
-		}
+	public abstract class AbstractSyncRepository : AbstractRepository, IRepository
+	{
+		public abstract void CommitChanges();
 
 		public virtual TAggregate GetById<TAggregate>( Guid aggregateId ) where TAggregate : class, IAggregate
 		{
 			return this.GetById<TAggregate>( new[] { aggregateId } ).Single();
 		}
 
-		public virtual IEnumerable<TAggregate> GetById<TAggregate>( params Guid[] aggregateIds ) where TAggregate : class, IAggregate
-		{
-			var task = this.GetByIdAsync<TAggregate>( aggregateIds );
-			task.Wait();
-
-			return task.Result;
-		}
+		public abstract IEnumerable<TAggregate> GetById<TAggregate>(params Guid[] aggregateIds)
+			where TAggregate : class, IAggregate;
 	}
 }

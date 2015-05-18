@@ -60,7 +60,8 @@
     <Compile Include="DbMigrations\CustomSqlServerMigrationSqlGenerator.cs" />
     <Compile Include="DomainEventCommit.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Runtime\Repository.cs" />
+    <Compile Include="Runtime\SyncRepository.cs" />
+    <Compile Include="Runtime\AsyncRepository.cs" />
     <Compile Include="Services\RepositoryFactory.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -9,18 +9,16 @@ using System.Threading.Tasks;
 
 namespace Radical.CQRS.Runtime
 {
-	class Repository : AbstractRepository
+	class AsyncRepository : AbstractAsyncRepository
 	{
 		public override void Dispose()
 		{
 			this._session.Dispose();
-
-			this.AggregateTracking.Clear();
 		}
 
 		readonly DbContext _session;
 
-		public Repository( DbContext session )
+		public AsyncRepository( DbContext session )
 		{
 			this._session = session;
 		}
