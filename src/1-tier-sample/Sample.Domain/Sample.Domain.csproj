@@ -59,6 +59,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Handlers\CreateNewPersonCommandHandler.cs" />
     <Compile Include="People\IPersonNameChanged.cs" />
     <Compile Include="People\IPersonCreated.cs" />
     <Compile Include="People\Person.cs" />
@@ -83,9 +84,7 @@
       <Name>Radical.CQRS</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Handlers\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Radical.CQRS
 {
-	public abstract class AbstractRepository : IRepository
+	public abstract class AbstractRepository : IAsyncRepository, IRepository
 	{
 		public virtual void Dispose()
 		{
@@ -38,5 +38,24 @@ namespace Radical.CQRS
 
 		public abstract Task<IEnumerable<TAggregate>> GetByIdAsync<TAggregate>(params Guid[] aggregateIds)
 			where TAggregate : class, IAggregate;
+
+
+		public virtual void CommitChanges()
+		{
+			this.CommitChangesAsync().Wait();
+		}
+
+		public virtual TAggregate GetById<TAggregate>( Guid aggregateId ) where TAggregate : class, IAggregate
+		{
+			return this.GetById<TAggregate>( new[] { aggregateId } ).Single();
+		}
+
+		public virtual IEnumerable<TAggregate> GetById<TAggregate>( params Guid[] aggregateIds ) where TAggregate : class, IAggregate
+		{
+			var task = this.GetByIdAsync<TAggregate>( aggregateIds );
+			task.Wait();
+
+			return task.Result;
+		}
 	}
 }
