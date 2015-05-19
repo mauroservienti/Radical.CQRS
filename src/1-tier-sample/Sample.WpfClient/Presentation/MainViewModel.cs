@@ -54,7 +54,7 @@ namespace Sample.WpfClient.Presentation
 					Name = this.Name
 				} );
 
-				using( var db = new PeopleViewDbContext() )
+				using( var db = new PeopleViewContext() )
 				{
 					var result = await db.PeopleView.SingleAsync( p => p.Id == key );
 					this.People.Insert( 0, result );
@@ -64,12 +64,19 @@ namespace Sample.WpfClient.Presentation
 
 		async Task PopulatePeople()
 		{
-			using( var db = new PeopleViewDbContext() )
+			try
 			{
-				foreach( var item in await db.PeopleView.ToListAsync() )
+				using( var db = new PeopleViewContext() )
 				{
-					this.People.Add( item );
+					foreach( var item in await db.PeopleView.ToListAsync() )
+					{
+						this.People.Add( item );
+					}
 				}
+			}
+			catch( Exception ex ) 
+			{
+				throw;
 			}
 		}
 

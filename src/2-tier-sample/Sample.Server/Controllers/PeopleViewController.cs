@@ -7,7 +7,7 @@ namespace Sample.Server.Controllers
 {
 	public class PeopleViewController : ODataController
 	{
-		PeopleViewDbContext db = new PeopleViewDbContext();
+		PeopleViewContext db = new PeopleViewContext();
 
 		protected override void Dispose( bool disposing )
 		{

@@ -25,9 +25,17 @@ namespace Radical.CQRS.Runtime
 
 		public override void Add<TAggregate>( TAggregate aggregate )
 		{
-			var db = this._session.Set<TAggregate>();
-			db.Add( aggregate );
-			this.TrackIfRequired( aggregate );
+			try
+			{
+				var db = this._session.Set<TAggregate>();
+				db.Add( aggregate );
+				this.TrackIfRequired( aggregate );
+			}
+			catch( Exception ex )
+			{
+				//TODO: log
+				throw;
+			}
 		}
 
 		public override async Task CommitChangesAsync()
@@ -65,7 +73,7 @@ namespace Radical.CQRS.Runtime
 				this.AggregateTracking.Clear();
 
 			}
-			catch( Exception )
+			catch( Exception ex )
 			{
 				//TODO: log
 				throw;
