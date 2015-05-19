@@ -10,6 +10,6 @@ namespace Sample.Domain.People
 	{
 		public string Where { get; set; }
 
-		public DateTime When { get; set; }
+		public DateTimeOffset When { get; set; }
 	}
 }

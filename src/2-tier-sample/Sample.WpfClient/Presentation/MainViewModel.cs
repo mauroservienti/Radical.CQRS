@@ -54,20 +54,32 @@ namespace Sample.WpfClient.Presentation
 			} );
 
 			var result = await odata.For<PersonView>( "PeopleView" )
-					.Key( key )
-					.FindEntryAsync();
+				.Expand( p => p.Addresses )
+				.Key( key )
+				.FindEntryAsync();
 
 			this.People.Insert( 0, result );
 		}
 
-		async Task PopulatePeople() 
+		async Task PopulatePeople()
 		{
-			var result = await odata.For<PersonView>( "PeopleView" )
+			try
+			{
+				var result = await odata.For<PersonView>( "PeopleView" )
+					.Expand( p => p.Addresses )
 					.FindEntriesAsync();
 
-			foreach( var item in result )
+				foreach( var item in result )
+				{
+					this.People.Add( item );
+				}
+			}
+			catch( WebRequestException exception )
 			{
-				this.People.Add( item );
+
+			}
+			catch( Exception ex )
+			{
 			}
 		}
 

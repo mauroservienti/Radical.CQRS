@@ -17,11 +17,13 @@ namespace Sample.WpfClient.Presentation
 {
 	class MainViewModel : AbstractViewModel, ICanBeValidated, IExpectViewLoadedCallback
 	{
-		readonly IWorkerServiceClientFactory _clientFactory;
+		readonly IWorkerServiceClientFactory clientFactory;
+		readonly IViewContextFactory<IPeopleViewContext> peopleViewContextFactory;
 
-		public MainViewModel( IWorkerServiceClientFactory clientFactory )
+		public MainViewModel( IWorkerServiceClientFactory clientFactory, IViewContextFactory<IPeopleViewContext> peopleViewContextFactory )
 		{
-			this._clientFactory = clientFactory;
+			this.clientFactory = clientFactory;
+			this.peopleViewContextFactory = peopleViewContextFactory;
 			this.People = new ObservableCollection<PersonView>();
 		}
 
@@ -47,16 +49,18 @@ namespace Sample.WpfClient.Presentation
 				return;
 			}
 
-			using( var client = this._clientFactory.CreateClient() )
+			using( var client = this.clientFactory.CreateClient() )
 			{
 				var key = ( Guid )client.Execute( new CreateNewPerson()
 				{
 					Name = this.Name
 				} );
 
-				using( var db = new PeopleViewContext() )
+				using( var db = this.peopleViewContextFactory.Create() )
 				{
-					var result = await db.PeopleView.SingleAsync( p => p.Id == key );
+					var result = await db.PeopleView
+						.Include( p => p.Addresses )
+						.SingleAsync( p => p.Id == key );
 					this.People.Insert( 0, result );
 				}
 			}
@@ -66,9 +70,13 @@ namespace Sample.WpfClient.Presentation
 		{
 			try
 			{
-				using( var db = new PeopleViewContext() )
+				using( var db = this.peopleViewContextFactory.Create() )
 				{
-					foreach( var item in await db.PeopleView.ToListAsync() )
+					var all = await db.PeopleView
+						.Include( p => p.Addresses )
+						.ToListAsync();
+
+					foreach( var item in all )
 					{
 						this.People.Add( item );
 					}

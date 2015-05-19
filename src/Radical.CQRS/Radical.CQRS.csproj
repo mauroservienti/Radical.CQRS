@@ -49,7 +49,6 @@
   <ItemGroup>
     <Compile Include="AbstractRepository.cs" />
     <Compile Include="Server\Context Management.cs" />
-    <Compile Include="IHaveState.cs" />
     <Compile Include="Reflection\ConcreteProxyCreator.cs" />
     <Compile Include="IAggregate.cs" />
     <Compile Include="IDomainEvent.cs" />

@@ -31,10 +31,10 @@ namespace Sample.Domain.People
 			return new Person
 			{
 				Name = nome,
-				Info = new BornInfo() 
+				Info = new BornInfo()
 				{
-					When= DateTime.Now,
-					Where= "Rome"
+					When = DateTimeOffset.Now,
+					Where = "Rome"
 				}
 			}.SetupCompleted();
 		}

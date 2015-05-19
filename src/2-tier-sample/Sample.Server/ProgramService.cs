@@ -64,8 +64,24 @@ namespace Sample.Server
 		static void AddODataSupport( ServerHost server )
 		{
 			var objectModelBuilder = new ODataConventionModelBuilder();
-			objectModelBuilder.EntitySet<PersonView>( "PeopleView" )
+
+			var bornInfo = objectModelBuilder.ComplexType<BornInfoView>();
+			
+			bornInfo.Property( bi => bi.When );
+			bornInfo.Property( bi => bi.Where );
+
+			var person = objectModelBuilder.EntitySet<PersonView>( "PeopleView" )
 				.EntityType.HasKey( p => p.Id );
+
+			person.Property( p => p.Name );
+			person.Property( p => p.Version );
+			person.ComplexProperty( p => p.BornInfo );
+
+			var address = objectModelBuilder.EntitySet<AddressView>( "AddressesView" )
+				.EntityType.HasKey( a => a.AddressId );
+
+			address.Property( a => a.Street );
+			address.Property( a => a.PersonId );
 
 			server.AddHttpConfigurationCustomization( cfg =>
 			{

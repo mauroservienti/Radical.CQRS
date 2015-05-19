@@ -2,7 +2,7 @@
 using System.Data.Entity.Migrations.Utilities;
 using System.Data.Entity.SqlServer;
 
-namespace Radical.CQRS.DbMigrations
+namespace System.Data.Entity.Migrations
 {
 	public class CustomSqlServerMigrationSqlGenerator: SqlServerMigrationSqlGenerator
 	{

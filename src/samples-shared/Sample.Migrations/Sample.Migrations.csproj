@@ -51,11 +51,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PeopleViewContext\201505190609255_Initial.cs" />
-    <Compile Include="PeopleViewContext\201505190609255_Initial.Designer.cs">
-      <DependentUpon>201505190609255_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PeopleViewContext\Configuration.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SampleDomainContext\201505190607035_Initial.cs" />
     <Compile Include="SampleDomainContext\201505190607035_Initial.Designer.cs">
@@ -65,11 +60,16 @@
     <Compile Include="SampleDomainContext\201505190842154_Add_BornInfo_on_Person.Designer.cs">
       <DependentUpon>201505190842154_Add_BornInfo_on_Person.cs</DependentUpon>
     </Compile>
+    <Compile Include="SampleDomainContext\201505191622337_People_BornDate_When_to_DateTimeOffset.cs" />
+    <Compile Include="SampleDomainContext\201505191622337_People_BornDate_When_to_DateTimeOffset.Designer.cs">
+      <DependentUpon>201505191622337_People_BornDate_When_to_DateTimeOffset.cs</DependentUpon>
+    </Compile>
     <Compile Include="SampleDomainContext\Configuration.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+    <None Include="readme.md" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Radical.CQRS.EntityFramework\Radical.CQRS.EntityFramework.csproj">
@@ -90,14 +90,14 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="PeopleViewContext\201505190609255_Initial.resx">
-      <DependentUpon>201505190609255_Initial.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="SampleDomainContext\201505190607035_Initial.resx">
       <DependentUpon>201505190607035_Initial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="SampleDomainContext\201505190842154_Add_BornInfo_on_Person.resx">
       <DependentUpon>201505190842154_Add_BornInfo_on_Person.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SampleDomainContext\201505191622337_People_BornDate_When_to_DateTimeOffset.resx">
+      <DependentUpon>201505191622337_People_BornDate_When_to_DateTimeOffset.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

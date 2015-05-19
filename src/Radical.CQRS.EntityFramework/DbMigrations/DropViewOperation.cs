@@ -2,7 +2,7 @@
 using System.Data.Entity.Migrations.Infrastructure;
 using System.Data.Entity.Migrations.Model;
 
-namespace Radical.CQRS.DbMigrations
+namespace System.Data.Entity.Migrations
 {
 	public static class DropViewOperationExtensions
 	{
