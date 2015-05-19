@@ -2,7 +2,7 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <ProjectGuid>{9c0bb9c4-cdc1-4201-98b5-c2f9b23f8cd3}</ProjectGuid>
-    <OutputPath>..\..\build\nuget\</OutputPath>
+    <OutputPath>..\..\_build\nuget\</OutputPath>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <NuBuildVersionSource>Manual</NuBuildVersionSource>
     <NuBuildVersionFileName>True</NuBuildVersionFileName>

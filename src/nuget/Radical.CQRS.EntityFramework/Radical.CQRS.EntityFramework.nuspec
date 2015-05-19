@@ -15,6 +15,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\..\build\$configuration$\Radical.CQRS.EntityFramework\lib\" target="lib\" />
+    <file src="..\..\_build\$configuration$\Radical.CQRS.EntityFramework\lib\" target="lib\" />
   </files>
 </package>

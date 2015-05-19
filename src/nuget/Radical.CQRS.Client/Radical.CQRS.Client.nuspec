@@ -15,6 +15,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\..\build\$configuration$\Radical.CQRS.Client\lib\" target="lib\" />
+    <file src="..\..\_build\$configuration$\Radical.CQRS.Client\lib\" target="lib\" />
   </files>
 </package>

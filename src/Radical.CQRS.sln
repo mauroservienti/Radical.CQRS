@@ -14,12 +14,24 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget packages", "nuget packages", "{E002A4D7-79E1-4B68-A10C-7B640058561F}"
 EndProject
 Project("{E09DD79A-4488-4AB9-8D3F-A7EEE78BF432}") = "Radical.CQRS", "nuget\Radical.CQRS\Radical.CQRS.nuproj", "{8506913C-BABA-45BE-B6EB-2DDE2EE47FE2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{653A6247-A969-494C-ABBB-4287FFB729D9} = {653A6247-A969-494C-ABBB-4287FFB729D9}
+	EndProjectSection
 EndProject
 Project("{E09DD79A-4488-4AB9-8D3F-A7EEE78BF432}") = "Radical.CQRS.Client", "nuget\Radical.CQRS.Client\Radical.CQRS.Client.nuproj", "{57199FA5-8A64-4A3D-A544-5938962C69B3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F3E2BEBE-A733-4BEB-95BD-18497400BF6E} = {F3E2BEBE-A733-4BEB-95BD-18497400BF6E}
+	EndProjectSection
 EndProject
 Project("{E09DD79A-4488-4AB9-8D3F-A7EEE78BF432}") = "Radical.CQRS.Server", "nuget\Radical.CQRS.Server\Radical.CQRS.Server.nuproj", "{9C0BB9C4-CDC1-4201-98B5-C2F9B23F8CD3}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E54A40DC-50BE-4E53-9759-0C59B76E1ACF} = {E54A40DC-50BE-4E53-9759-0C59B76E1ACF}
+	EndProjectSection
 EndProject
 Project("{E09DD79A-4488-4AB9-8D3F-A7EEE78BF432}") = "Radical.CQRS.EntityFramework", "nuget\Radical.CQRS.EntityFramework\Radical.CQRS.EntityFramework.nuproj", "{CC2E9E77-766A-4BEB-909F-E10797FB4FF8}"
+	ProjectSection(ProjectDependencies) = postProject
+		{1B7E9417-C085-450B-912E-55A3518C698C} = {1B7E9417-C085-450B-912E-55A3518C698C}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-tier-sample", "2-tier-sample", "{FCF93004-69A3-4D44-A8FD-532005820106}"
 EndProject
