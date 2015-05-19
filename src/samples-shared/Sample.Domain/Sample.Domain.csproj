@@ -38,15 +38,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
-    <Reference Include="Jason">
-      <HintPath>..\..\packages\Jason.0.4.0.1-Beta\lib\net40\Jason.dll</HintPath>
-    </Reference>
-    <Reference Include="Jason.Tools">
-      <HintPath>..\..\packages\Jason.Tools.0.4.0.1-Beta\lib\net40\Jason.Tools.dll</HintPath>
-    </Reference>
-    <Reference Include="Radical">
-      <HintPath>..\..\packages\Radical.1.5.1.0\lib\net45\Radical.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -59,8 +50,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Handlers\CreateNewPersonCommandHandler.cs" />
     <Compile Include="People\Address.cs" />
+    <Compile Include="People\BornInfo.cs" />
     <Compile Include="People\IPersonNameChanged.cs" />
     <Compile Include="People\IPersonCreated.cs" />
     <Compile Include="People\Person.cs" />

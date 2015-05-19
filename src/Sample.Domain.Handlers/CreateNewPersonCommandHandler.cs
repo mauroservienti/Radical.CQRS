@@ -19,7 +19,7 @@ namespace Sample.Domain.Handlers
 				repository.Add( aPerson );
 				repository.CommitChanges();
 
-				return aPerson.GetKey();
+				return ( ( IAggregate )aPerson ).Id;
 			}
 		}
 	}

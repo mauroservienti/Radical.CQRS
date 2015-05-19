@@ -9,9 +9,11 @@ namespace Sample.Domain.People
 	{
 		protected override Guid Id { get; set; }
 
-		private string Name { get; set; }
+		internal string Name { get; set; }
 
-		internal virtual List<Address> Addresses { get; set; }
+		internal BornInfo Info { get; set; }
+
+		internal List<Address> Addresses { get; set; }
 
 		internal Person()
 		{
@@ -28,7 +30,12 @@ namespace Sample.Domain.People
 		{
 			return new Person
 			{
-				Name = nome
+				Name = nome,
+				Info = new BornInfo() 
+				{
+					When= DateTime.Now,
+					Where= "Rome"
+				}
 			}.SetupCompleted();
 		}
 

@@ -173,6 +173,10 @@
       <Project>{653a6247-a969-494c-abbb-4287ffb729d9}</Project>
       <Name>Radical.CQRS</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Sample.Domain.Handlers\Sample.Domain.Handlers.csproj">
+      <Project>{1608950f-4a1e-4fca-a6fc-7bf0bc5716ce}</Project>
+      <Name>Sample.Domain.Handlers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\samples-shared\Sample.Domain\Sample.Domain.csproj">
       <Project>{a3dac0ff-6c09-4c98-9b0e-d01bf986769c}</Project>
       <Name>Sample.Domain</Name>

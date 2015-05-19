@@ -1,6 +1,10 @@
 ﻿using Radical.CQRS.Data;
 using Sample.Domain.People;
+using System;
+using System.Collections.Generic;
 using System.Data.Entity;
+using System.Data.Entity.ModelConfiguration.Configuration;
+using Topics.Radical.Helpers;
 
 namespace Sample.Domain
 {
@@ -14,13 +18,20 @@ namespace Sample.Domain
 					.ToTable( "dbo.PersonAddresses" );
 			modelBuilder.MapPropertiesOf<Address>();
 
-			modelBuilder.Entity<Person>()
-				.HasMany( p => p.Addresses )
+			modelBuilder.ComplexType<BornInfo>();
+
+			var person = modelBuilder.Entity<Person>();
+			person.HasMany( p => p.Addresses )
 				.WithOptional()
 				.HasForeignKey( a => a.PersonId )
 				.WillCascadeOnDelete();
 
-			modelBuilder.MapPropertiesOf<Person>( pi => pi.Name != "Addresses" );
+			modelBuilder.MapPropertiesOf<Person>( 
+				propertiesToSkip: new[] 
+				{
+					ReflectionHelper.GetPropertyName<Person>( p => p.Info ), 
+					ReflectionHelper.GetPropertyName<Person>( p => p.Addresses ) 
+				} );
 		}
 	}
 }
