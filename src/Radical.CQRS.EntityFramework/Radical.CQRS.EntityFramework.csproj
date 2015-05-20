@@ -59,9 +59,12 @@
     <Compile Include="DbMigrations\CreateViewOperation.cs" />
     <Compile Include="DbMigrations\CustomSqlServerMigrationSqlGenerator.cs" />
     <Compile Include="DomainEventCommit.cs" />
+    <Compile Include="IAggregateAsyncLoader.cs" />
+    <Compile Include="IAggregateLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Runtime\SyncRepository.cs" />
     <Compile Include="Runtime\AsyncRepository.cs" />
+    <Compile Include="Services\AggregateLoaderProvider.cs" />
     <Compile Include="Services\RepositoryFactory.cs" />
   </ItemGroup>
   <ItemGroup>

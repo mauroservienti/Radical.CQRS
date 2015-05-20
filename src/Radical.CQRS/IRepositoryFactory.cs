@@ -2,7 +2,7 @@
 {
     public interface IRepositoryFactory
     {
-        IAsyncRepository OpenAsyncSession();
+		//IAsyncRepository OpenAsyncSession();
 		IRepository OpenSession();
     }
 }

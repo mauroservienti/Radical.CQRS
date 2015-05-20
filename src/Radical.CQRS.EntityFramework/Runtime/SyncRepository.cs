@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using Radical.CQRS.Reflection;
 using Topics.Radical.Linq;
 using System.Threading.Tasks;
+using Radical.CQRS.Services;
 
 namespace Radical.CQRS.Runtime
 {
@@ -16,10 +17,12 @@ namespace Radical.CQRS.Runtime
 			this._session.Dispose();
 		}
 
+		readonly AggregateLoaderProvider aggregateLoaderProvider;
 		readonly DbContext _session;
 
-		public SyncRepository( DbContext session )
+		public SyncRepository( DbContext session, AggregateLoaderProvider aggregateLoaderProvider )
 		{
+			this.aggregateLoaderProvider = aggregateLoaderProvider;
 			this._session = session;
 		}
 
@@ -82,8 +85,18 @@ namespace Radical.CQRS.Runtime
 
 		public override TAggregate GetById<TAggregate>( Guid aggregateId )
 		{
-			var db = this._session.Set<TAggregate>();
-			var aggregate = db.Single( a => a.Id == aggregateId );
+			TAggregate aggregate = null;
+			var loader = this.aggregateLoaderProvider.GetLoader<TAggregate>();
+			if( loader != null )
+			{
+				aggregate = loader.GetById( this._session, aggregateId );
+			}
+			else
+			{
+				var db = this._session.Set<TAggregate>();
+				aggregate = db.Single( a => a.Id == aggregateId );
+			}
+
 			this.TrackIfRequired( aggregate );
 
 			return aggregate;
@@ -91,14 +104,25 @@ namespace Radical.CQRS.Runtime
 
 		public override IEnumerable<TAggregate> GetById<TAggregate>( params Guid[] aggregateIds )
 		{
-			var db = this._session.Set<TAggregate>();
-			var aggregates = db.Where( a => aggregateIds.Contains( a.Id ) );
-			foreach( var a in aggregates )
+			IEnumerable<TAggregate> results = null;
+			var loader = this.aggregateLoaderProvider.GetLoader<TAggregate>();
+			if( loader != null )
+			{
+				results = loader.GetById( this._session, aggregateIds );
+			}
+			else
+			{
+				var db = this._session.Set<TAggregate>();
+				results = db.Where( a => aggregateIds.Contains( a.Id ) )
+					.ToList();
+			}
+
+			foreach( var a in results )
 			{
 				this.TrackIfRequired( a );
 			}
 
-			return aggregates.AsEnumerable();
+			return results;
 		}
 	}
 }

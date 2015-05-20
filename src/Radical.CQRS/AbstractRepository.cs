@@ -30,18 +30,18 @@ namespace Radical.CQRS
 		public abstract void Add<TAggregate>(TAggregate aggregate) where TAggregate : class, IAggregate;
 	}
 
-	public abstract class AbstractAsyncRepository : AbstractRepository, IAsyncRepository
-	{
-		public abstract Task CommitChangesAsync();
+	//public abstract class AbstractAsyncRepository : AbstractRepository, IAsyncRepository
+	//{
+	//	public abstract Task CommitChangesAsync();
 
-		public virtual async Task<TAggregate> GetByIdAsync<TAggregate>( Guid aggregateId ) where TAggregate : class, IAggregate
-		{
-			return ( await this.GetByIdAsync<TAggregate>( new[] { aggregateId } ) ).Single();
-		}
+	//	public virtual async Task<TAggregate> GetByIdAsync<TAggregate>( Guid aggregateId ) where TAggregate : class, IAggregate
+	//	{
+	//		return ( await this.GetByIdAsync<TAggregate>( new[] { aggregateId } ) ).Single();
+	//	}
 
-		public abstract Task<IEnumerable<TAggregate>> GetByIdAsync<TAggregate>( params Guid[] aggregateIds )
-			where TAggregate : class, IAggregate;		
-	}
+	//	public abstract Task<IEnumerable<TAggregate>> GetByIdAsync<TAggregate>( params Guid[] aggregateIds )
+	//		where TAggregate : class, IAggregate;		
+	//}
 
 	public abstract class AbstractSyncRepository : AbstractRepository, IRepository
 	{
