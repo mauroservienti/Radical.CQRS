@@ -54,7 +54,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreateNewPersonCommandHandler.cs" />
+    <Compile Include="TouchPersonHandler.cs" />
+    <Compile Include="CreateNewPersonHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

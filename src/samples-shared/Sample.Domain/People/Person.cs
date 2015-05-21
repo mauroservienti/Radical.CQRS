@@ -7,7 +7,7 @@ namespace Sample.Domain.People
 {
 	public class Person : Aggregate
 	{
-		protected override Guid Id { get; set; }
+		public override Guid Id { get; set; }
 
 		internal string Name { get; set; }
 

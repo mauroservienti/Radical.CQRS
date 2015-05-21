@@ -25,6 +25,9 @@ namespace Sample.WpfClient.Presentation
 			this.clientFactory = clientFactory;
 			this.peopleViewContextFactory = peopleViewContextFactory;
 			this.People = new ObservableCollection<PersonView>();
+
+			this.GetPropertyMetadata( () => this.SelectedPerson )
+				.AddCascadeChangeNotifications( () => this.CanTouchSelectedPerson );
 		}
 
 		protected override IValidationService GetValidationService()
@@ -36,10 +39,29 @@ namespace Sample.WpfClient.Presentation
 		public String Name
 		{
 			get { return this.GetPropertyValue( () => this.Name ); }
-			set { this.SetInitialPropertyValue( () => this.Name, value ); }
+			set { this.SetPropertyValue( () => this.Name, value ); }
 		}
 
 		public ObservableCollection<PersonView> People { get; private set; }
+
+		public PersonView SelectedPerson
+		{
+			get { return this.GetPropertyValue( () => this.SelectedPerson ); }
+			set { this.SetPropertyValue( () => this.SelectedPerson, value ); }
+		}
+
+		public Boolean CanTouchSelectedPerson { get { return this.SelectedPerson != null; } }
+
+		public void TouchSelectedPerson() 
+		{
+			using( var client = this.clientFactory.CreateClient() )
+			{
+				var key = ( Guid )client.Execute( new TouchPerson()
+				{
+					Id = this.SelectedPerson.Id
+				} );
+			}
+		}
 
 		public async Task CreateNewPerson()
 		{

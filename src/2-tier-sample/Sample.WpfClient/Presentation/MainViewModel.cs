@@ -34,7 +34,7 @@ namespace Sample.WpfClient.Presentation
 		public String Name
 		{
 			get { return this.GetPropertyValue( () => this.Name ); }
-			set { this.SetInitialPropertyValue( () => this.Name, value ); }
+			set { this.SetPropertyValue( () => this.Name, value ); }
 		}
 
 		public ObservableCollection<PersonView> People { get; private set; }

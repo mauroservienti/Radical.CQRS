@@ -9,11 +9,11 @@ namespace Radical.CQRS
 {
     public abstract class Aggregate : IAggregate, IEquatable<IAggregate> //, IHaveState<TState>
     {
-        protected internal abstract Guid Id { get; set; }
-        protected internal virtual int Version { get; set; }
+        public abstract Guid Id { get; set; }
+        public int Version { get; set; }
 
 		[Timestamp]
-		protected internal virtual byte[] RowVersion { get; set; }
+		protected virtual byte[] RowVersion { get; set; }
 
         [NotMapped]
         int IAggregate.Version { get { return this.Version; } }
