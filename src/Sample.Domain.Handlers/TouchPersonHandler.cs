@@ -16,8 +16,6 @@ namespace Sample.Domain.Handlers
 			{
 				var aPerson = repository.GetById<Person>( command.Id );
 
-				repository.CommitChanges();
-
 				return ( ( IAggregate )aPerson ).Id;
 			}
 		}

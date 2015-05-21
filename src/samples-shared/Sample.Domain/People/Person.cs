@@ -18,17 +18,11 @@ namespace Sample.Domain.People
 		internal Person()
 		{
 			this.Addresses = new List<Address>();
-			this.Addresses.Add( new Address()
-			{
-				Id = Guid.NewGuid(),
-				PersonId = this.Id,
-				Street = "djhfbvdjkfbvkjdfh"
-			} );
 		}
 
 		public static Person CreateNew( string nome )
 		{
-			return new Person
+			var p= new Person
 			{
 				Name = nome,
 				Info = new BornInfo()
@@ -36,7 +30,16 @@ namespace Sample.Domain.People
 					When = DateTimeOffset.Now,
 					Where = "Rome"
 				}
-			}.SetupCompleted();
+			};
+
+			p.Addresses.Add( new Address()
+			{
+				Id = Guid.NewGuid(),
+				PersonId = p.Id,
+				Street = "djhfbvdjkfbvkjdfh"
+			} );
+
+			return p.SetupCompleted();
 		}
 
 		private Person SetupCompleted()
