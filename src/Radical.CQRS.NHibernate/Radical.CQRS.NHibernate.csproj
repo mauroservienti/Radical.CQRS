@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1608950F-4A1E-4FCA-A6FC-7BF0BC5716CE}</ProjectGuid>
+    <ProjectGuid>{51419837-D81B-4AB7-850C-A628732AAFE7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sample.Domain.Handlers</RootNamespace>
-    <AssemblyName>Sample.Domain.Handlers</AssemblyName>
+    <RootNamespace>Radical.CQRS</RootNamespace>
+    <AssemblyName>Radical.CQRS.NHibernate</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -33,12 +33,16 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Jason, Version=0.4.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Jason.0.4.0.1-Beta\lib\net40\Jason.dll</HintPath>
+    <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Jason.Tools, Version=0.4.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\Jason.Tools.0.4.0.1-Beta\lib\net40\Jason.Tools.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\packages\NHibernate.4.0.3.4000\lib\net40\NHibernate.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Radical, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -54,32 +58,52 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TouchPersonHandler.cs" />
-    <Compile Include="CreateNewPersonHandler.cs" />
+    <Compile Include="Aggregate.cs" />
+    <Compile Include="DomainEventCommit.cs" />
+    <Compile Include="IAggregateLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Radical.CQRS.EntityFramework\Radical.CQRS.EntityFramework.csproj">
-      <Project>{1b7e9417-c085-450b-912e-55a3518c698c}</Project>
-      <Name>Radical.CQRS.EntityFramework</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Radical.CQRS\Radical.CQRS.csproj">
-      <Project>{653a6247-a969-494c-abbb-4287ffb729d9}</Project>
-      <Name>Radical.CQRS</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\samples-shared\Sample.Domain\Sample.Domain.csproj">
-      <Project>{a3dac0ff-6c09-4c98-9b0e-d01bf986769c}</Project>
-      <Name>Sample.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\samples-shared\Sample.Messages\Sample.Messages.csproj">
-      <Project>{6faac3d2-3aff-4291-b15a-e0857577450b}</Project>
-      <Name>Sample.Messages</Name>
-    </ProjectReference>
+    <Compile Include="Runtime\SyncRepository.cs" />
+    <Compile Include="Services\AggregateLoaderProvider.cs" />
+    <Compile Include="Services\RepositoryFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Radical.CQRS\Radical.CQRS.csproj">
+      <Project>{653a6247-a969-494c-abbb-4287ffb729d9}</Project>
+      <Name>Radical.CQRS</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>if exist "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45". (
+    if exist "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45\it-it". (
+        del "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45\it-it\*.*"  /Q
+        rd "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45\it-it"
+    )
+    
+    del "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45\*.*"  /Q
+    echo "Build/NuGet folder purged".
+) else (
+    echo "no Build/NuGet folder to purge.".
+)
+
+if not exist "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45". (
+    md "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45"
+    echo "Build/NuGet folder created.".
+)
+
+if not exist "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45\it-IT". (
+    md "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45\it-IT"
+    echo "Build/NuGet (resources) folder created.".
+)
+
+copy "$(TargetDir)$(TargetName).*" "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45\$(TargetName).*" /B /Y
+copy "$(TargetDir)it-IT\$(TargetName).resources.*" "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45\it-IT\$(TargetName).resources.*" /B /Y
+
+del "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45\$(TargetFileName).config"</PostBuildEvent>
+  </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

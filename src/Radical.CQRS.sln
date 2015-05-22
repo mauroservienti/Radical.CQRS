@@ -43,8 +43,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.WpfClient", "1-tier-
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.WpfClient", "2-tier-sample\Sample.WpfClient\Sample.WpfClient.csproj", "{5B625C56-EE62-4F31-AC08-B16B2372CA72}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Domain", "samples-shared\Sample.Domain\Sample.Domain.csproj", "{A3DAC0FF-6C09-4C98-9B0E-D01BF986769C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.ViewModels", "samples-shared\Sample.ViewModels\Sample.ViewModels.csproj", "{412C0CD9-F3B7-4519-A1A0-C90234D5EE1F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Messages", "samples-shared\Sample.Messages\Sample.Messages.csproj", "{6FAAC3D2-3AFF-4291-B15A-E0857577450B}"
@@ -53,7 +51,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "samples", "samples", "{FA15
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Migrations", "samples-shared\Sample.Migrations\Sample.Migrations.csproj", "{9A5FA738-AF1E-4325-BFB0-E37A8204CBF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Domain.Handlers", "Sample.Domain.Handlers\Sample.Domain.Handlers.csproj", "{1608950F-4A1E-4FCA-A6FC-7BF0BC5716CE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Domain.Handlers", "samples-shared\Sample.Domain.Handlers\Sample.Domain.Handlers.csproj", "{1608950F-4A1E-4FCA-A6FC-7BF0BC5716CE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migrations", "Migrations", "{F65E89C5-FA5B-401B-AE36-B5A9A965F088}"
 EndProject
@@ -61,6 +59,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		..\README.md = ..\README.md
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radical.CQRS.NHibernate", "Radical.CQRS.NHibernate\Radical.CQRS.NHibernate.csproj", "{51419837-D81B-4AB7-850C-A628732AAFE7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Domain", "samples-shared\Sample.Domain\Sample.Domain.csproj", "{A3DAC0FF-6C09-4C98-9B0E-D01BF986769C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -112,10 +114,6 @@ Global
 		{5B625C56-EE62-4F31-AC08-B16B2372CA72}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B625C56-EE62-4F31-AC08-B16B2372CA72}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B625C56-EE62-4F31-AC08-B16B2372CA72}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A3DAC0FF-6C09-4C98-9B0E-D01BF986769C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3DAC0FF-6C09-4C98-9B0E-D01BF986769C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A3DAC0FF-6C09-4C98-9B0E-D01BF986769C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3DAC0FF-6C09-4C98-9B0E-D01BF986769C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{412C0CD9-F3B7-4519-A1A0-C90234D5EE1F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{412C0CD9-F3B7-4519-A1A0-C90234D5EE1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{412C0CD9-F3B7-4519-A1A0-C90234D5EE1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -132,6 +130,14 @@ Global
 		{1608950F-4A1E-4FCA-A6FC-7BF0BC5716CE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1608950F-4A1E-4FCA-A6FC-7BF0BC5716CE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1608950F-4A1E-4FCA-A6FC-7BF0BC5716CE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51419837-D81B-4AB7-850C-A628732AAFE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51419837-D81B-4AB7-850C-A628732AAFE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51419837-D81B-4AB7-850C-A628732AAFE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51419837-D81B-4AB7-850C-A628732AAFE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3DAC0FF-6C09-4C98-9B0E-D01BF986769C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3DAC0FF-6C09-4C98-9B0E-D01BF986769C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3DAC0FF-6C09-4C98-9B0E-D01BF986769C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3DAC0FF-6C09-4C98-9B0E-D01BF986769C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -146,11 +152,11 @@ Global
 		{A7D775BA-06BC-459E-BA5C-C8BA76FD133D} = {FCF93004-69A3-4D44-A8FD-532005820106}
 		{C2016ED4-E37E-4B5F-9D64-460E6FAFDC70} = {02BDD423-7D41-471D-9B1D-80606742C473}
 		{5B625C56-EE62-4F31-AC08-B16B2372CA72} = {FCF93004-69A3-4D44-A8FD-532005820106}
-		{A3DAC0FF-6C09-4C98-9B0E-D01BF986769C} = {FA151CCA-D872-4FB7-B5E0-6BE06688D30F}
 		{412C0CD9-F3B7-4519-A1A0-C90234D5EE1F} = {FA151CCA-D872-4FB7-B5E0-6BE06688D30F}
 		{6FAAC3D2-3AFF-4291-B15A-E0857577450B} = {FA151CCA-D872-4FB7-B5E0-6BE06688D30F}
 		{9A5FA738-AF1E-4325-BFB0-E37A8204CBF7} = {F65E89C5-FA5B-401B-AE36-B5A9A965F088}
 		{1608950F-4A1E-4FCA-A6FC-7BF0BC5716CE} = {FA151CCA-D872-4FB7-B5E0-6BE06688D30F}
 		{F65E89C5-FA5B-401B-AE36-B5A9A965F088} = {FA151CCA-D872-4FB7-B5E0-6BE06688D30F}
+		{A3DAC0FF-6C09-4C98-9B0E-D01BF986769C} = {FA151CCA-D872-4FB7-B5E0-6BE06688D30F}
 	EndGlobalSection
 EndGlobal

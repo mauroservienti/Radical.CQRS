@@ -1,26 +1,17 @@
-﻿using System;
+﻿using Radical.CQRS.Reflection;
+using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using Radical.CQRS.Reflection;
 
 namespace Radical.CQRS
 {
-    public abstract class Aggregate : IAggregate, IEquatable<IAggregate> //, IHaveState<TState>
+    public abstract class Aggregate : IAggregate, IEquatable<IAggregate>
     {
         public abstract Guid Id { get; set; }
         public int Version { get; set; }
 
-		[Timestamp]
 		protected virtual byte[] RowVersion { get; set; }
 
-		//[NotMapped]
-		//int IAggregate.Version { get { return this.Version; } }
-		//[NotMapped]
-		//Guid IAggregate.Id { get { return this.Id; } }
-
-        [NotMapped]
         public bool IsChanged { get { return this._uncommittedEvents.Any(); } }
 
 	    readonly List<IDomainEvent> _uncommittedEvents = new List<IDomainEvent>();
