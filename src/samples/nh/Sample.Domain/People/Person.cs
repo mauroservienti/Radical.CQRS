@@ -1,0 +1,56 @@
+﻿using System;
+using Radical.CQRS;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Sample.Domain.People
+{
+	public class Person : Aggregate
+	{
+		internal virtual string Name { get; set; }
+
+		internal virtual BornInfo Info { get; set; }
+
+		internal virtual List<Address> Addresses { get; set; }
+
+		internal Person()
+		{
+			this.Addresses = new List<Address>();
+		}
+
+		public static Person CreateNew( string nome )
+		{
+			var p= new Person
+			{
+				Name = nome,
+				Info = new BornInfo()
+				{
+					When = DateTimeOffset.Now,
+					Where = "Rome"
+				}
+			};
+
+			p.Addresses.Add( new Address()
+			{
+				Id = Guid.NewGuid(),
+				PersonId = p.Id,
+				Street = "djhfbvdjkfbvkjdfh"
+			} );
+
+			return p.SetupCompleted();
+		}
+
+		private Person SetupCompleted()
+		{
+			this.RaiseEvent<IPersonCreated>( e => e.Name = this.Name );
+
+			return this;
+		}
+
+		public void ChangeName( string newName )
+		{
+			this.Name = newName;
+			this.RaiseEvent<IPersonNameChanged>( e => e.NewName = newName );
+		}
+	}
+}

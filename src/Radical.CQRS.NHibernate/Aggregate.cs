@@ -7,8 +7,8 @@ namespace Radical.CQRS
 {
     public abstract class Aggregate : IAggregate, IEquatable<IAggregate>
     {
-        public abstract Guid Id { get; set; }
-        public int Version { get; set; }
+        public virtual Guid Id { get; protected set; }
+		public virtual int Version { get; protected set; }
 
 		protected virtual byte[] RowVersion { get; set; }
 
