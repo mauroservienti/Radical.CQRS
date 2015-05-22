@@ -49,10 +49,10 @@ namespace Sample.Domain.People
 			return this;
 		}
 
-		public void CambiaNome( string nome )
+		public void ChangeName( string newName )
 		{
-			this.Name = nome;
-			this.RaiseEvent<IPersonNameChanged>( e => e.NewName = nome );
+			this.Name = newName;
+			this.RaiseEvent<IPersonNameChanged>( e => e.NewName = newName );
 		}
 	}
 }
