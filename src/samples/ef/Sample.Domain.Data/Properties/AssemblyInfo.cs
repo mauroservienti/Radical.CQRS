@@ -1,14 +1,15 @@
 ﻿using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Radical.CQRS.Domain")]
+[assembly: AssemblyTitle("Sample.Domain.Data")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Radical.CQRS.Domain")]
+[assembly: AssemblyProduct("Sample.Domain.Data")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -19,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("154b1543-9fc1-4785-a33f-bae750ad7e8d")]
+[assembly: Guid("9d1b3b29-e687-4d6e-a541-9dc9080de301")]
 
 // Version information for an assembly consists of the following four values:
 //

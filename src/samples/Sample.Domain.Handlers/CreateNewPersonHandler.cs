@@ -6,17 +6,20 @@ using Sample.Messages.Commands;
 
 namespace Sample.Domain.Handlers
 {
-	class TouchPersonHandler : AbstractCommandHandler<TouchPerson>
+	class CreateNewPersonHandler : AbstractCommandHandler<CreateNewPerson>
 	{
 		public IRepositoryFactory RepositoryFactory { get; set; }
 
-		protected override object OnExecute( TouchPerson command )
+		protected override object OnExecute( CreateNewPerson command )
 		{
 			using( var repository = RepositoryFactory.OpenSession() )
 			{
-				var aPerson = repository.GetById<Person>( command.Id );
+				var aPerson = Person.CreateNew( command.Name );
 
-				return ( ( IAggregate )aPerson ).Id;
+				repository.Add( aPerson );
+				repository.CommitChanges();
+
+				return aPerson.Id;
 			}
 		}
 	}

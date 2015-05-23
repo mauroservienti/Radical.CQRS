@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2993A8B6-C768-4E7F-B135-AC6B979427B0}</ProjectGuid>
+    <ProjectGuid>{6A412AF2-ECFB-4783-BDA6-750B5D72C262}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sample.Domain.Handlers</RootNamespace>
-    <AssemblyName>Sample.Domain.Handlers</AssemblyName>
+    <RootNamespace>Sample.Domain.Data</RootNamespace>
+    <AssemblyName>Sample.Domain.Data</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +20,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,15 +28,14 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Jason, Version=0.4.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Jason.0.4.0.1-Beta\lib\net40\Jason.dll</HintPath>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Jason.Tools, Version=0.4.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\..\packages\Jason.Tools.0.4.0.1-Beta\lib\net40\Jason.Tools.dll</HintPath>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Radical, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -46,6 +43,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -54,29 +52,27 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TouchPersonHandler.cs" />
-    <Compile Include="CreateNewPersonHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SampleDomainContext.cs" />
+    <Compile Include="Services\DbContextFactory.cs" />
+    <Compile Include="Services\PersonLoader.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Radical.CQRS.NHibernate\Radical.CQRS.NHibernate.csproj">
-      <Project>{51419837-d81b-4ab7-850c-a628732aafe7}</Project>
-      <Name>Radical.CQRS.NHibernate</Name>
+    <ProjectReference Include="..\..\..\Radical.CQRS.EntityFramework\Radical.CQRS.EntityFramework.csproj">
+      <Project>{1b7e9417-c085-450b-912e-55a3518c698c}</Project>
+      <Name>Radical.CQRS.EntityFramework</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Radical.CQRS\Radical.CQRS.csproj">
       <Project>{653a6247-a969-494c-abbb-4287ffb729d9}</Project>
       <Name>Radical.CQRS</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Sample.Messages\Sample.Messages.csproj">
-      <Project>{6faac3d2-3aff-4291-b15a-e0857577450b}</Project>
-      <Name>Sample.Messages</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sample.Domain\Sample.Domain.csproj">
-      <Project>{a07cd362-42fa-44e7-acf1-55a013395494}</Project>
+    <ProjectReference Include="..\..\Sample.Domain\Sample.Domain.csproj">
+      <Project>{a3dac0ff-6c09-4c98-9b0e-d01bf986769c}</Project>
       <Name>Sample.Domain</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

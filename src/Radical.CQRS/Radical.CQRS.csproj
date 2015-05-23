@@ -48,6 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AbstractRepository.cs" />
+    <Compile Include="Aggregate.cs" />
+    <Compile Include="DomainEventCommit.cs" />
     <Compile Include="Server\Context Management.cs" />
     <Compile Include="Reflection\ConcreteProxyCreator.cs" />
     <Compile Include="IAggregate.cs" />

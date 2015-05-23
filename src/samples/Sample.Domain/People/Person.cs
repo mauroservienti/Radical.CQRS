@@ -7,11 +7,11 @@ namespace Sample.Domain.People
 {
 	public class Person : Aggregate
 	{
-		internal virtual string Name { get; set; }
+		internal string Name { get; set; }
 
-		internal virtual BornInfo Info { get; set; }
+		internal BornInfo Info { get; set; }
 
-		internal virtual List<Address> Addresses { get; set; }
+		internal List<Address> Addresses { get; set; }
 
 		internal Person()
 		{

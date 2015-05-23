@@ -173,17 +173,21 @@
       <Project>{653a6247-a969-494c-abbb-4287ffb729d9}</Project>
       <Name>Radical.CQRS</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Sample.Domain.Handlers\Sample.Domain.Handlers.csproj">
+    <ProjectReference Include="..\..\..\Sample.Domain.Handlers\Sample.Domain.Handlers.csproj">
       <Project>{1608950f-4a1e-4fca-a6fc-7bf0bc5716ce}</Project>
       <Name>Sample.Domain.Handlers</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Sample.Domain\Sample.Domain.csproj">
+    <ProjectReference Include="..\..\..\Sample.Domain\Sample.Domain.csproj">
       <Project>{a3dac0ff-6c09-4c98-9b0e-d01bf986769c}</Project>
       <Name>Sample.Domain</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Sample.Messages\Sample.Messages.csproj">
       <Project>{6faac3d2-3aff-4291-b15a-e0857577450b}</Project>
       <Name>Sample.Messages</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Sample.Domain.Data\Sample.Domain.Data.csproj">
+      <Project>{6a412af2-ecfb-4783-bda6-750b5d72c262}</Project>
+      <Name>Sample.Domain.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Sample.ViewModels\Sample.ViewModels.csproj">
       <Project>{412c0cd9-f3b7-4519-a1a0-c90234d5ee1f}</Project>
