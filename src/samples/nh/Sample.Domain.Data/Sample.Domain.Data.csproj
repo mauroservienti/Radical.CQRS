@@ -4,14 +4,13 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{1608950F-4A1E-4FCA-A6FC-7BF0BC5716CE}</ProjectGuid>
+    <ProjectGuid>{2BB9A825-9CB0-49B0-BDB9-4F16E428EE28}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Sample.Domain.Handlers</RootNamespace>
-    <AssemblyName>Sample.Domain.Handlers</AssemblyName>
+    <RootNamespace>Sample.Domain.Data</RootNamespace>
+    <AssemblyName>Sample.Domain.Data</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -21,7 +20,6 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,15 +28,30 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Jason, Version=0.4.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Jason.0.4.0.1-Beta\lib\net40\Jason.dll</HintPath>
+    <Reference Include="Castle.Core, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Castle.Core.3.3.3\lib\net45\Castle.Core.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Jason.Tools, Version=0.4.0.1, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Jason.Tools.0.4.0.1-Beta\lib\net40\Jason.Tools.dll</HintPath>
+    <Reference Include="Castle.Windsor, Version=3.3.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Castle.Windsor.3.3.0\lib\net45\Castle.Windsor.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="FluentNHibernate, Version=2.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\FluentNHibernate.2.0.1.0\lib\net40\FluentNHibernate.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Iesi.Collections, Version=4.0.0.0, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Iesi.Collections.4.0.0.4000\lib\net40\Iesi.Collections.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\Newtonsoft.Json.6.0.8\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NHibernate, Version=4.0.0.4000, Culture=neutral, PublicKeyToken=aa95f207798dfdb4, processorArchitecture=MSIL">
+      <HintPath>..\..\..\packages\NHibernate.4.0.3.4000\lib\net40\NHibernate.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Radical, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
@@ -46,6 +59,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -54,22 +69,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TouchPersonHandler.cs" />
-    <Compile Include="CreateNewPersonHandler.cs" />
+    <Compile Include="Boot\Installers\NHibernateInstaller.cs" />
+    <Compile Include="Maps\DomainConfiguration.cs" />
+    <Compile Include="Maps\PersonMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Radical.CQRS\Radical.CQRS.csproj">
+    <ProjectReference Include="..\..\..\Radical.CQRS.NHibernate\Radical.CQRS.NHibernate.csproj">
+      <Project>{51419837-d81b-4ab7-850c-a628732aafe7}</Project>
+      <Name>Radical.CQRS.NHibernate</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Radical.CQRS\Radical.CQRS.csproj">
       <Project>{653a6247-a969-494c-abbb-4287ffb729d9}</Project>
       <Name>Radical.CQRS</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Sample.Domain\Sample.Domain.csproj">
+    <ProjectReference Include="..\..\Sample.Domain\Sample.Domain.csproj">
       <Project>{a3dac0ff-6c09-4c98-9b0e-d01bf986769c}</Project>
       <Name>Sample.Domain</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Sample.Messages\Sample.Messages.csproj">
-      <Project>{6faac3d2-3aff-4291-b15a-e0857577450b}</Project>
-      <Name>Sample.Messages</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

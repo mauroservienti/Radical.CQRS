@@ -64,9 +64,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Migrations", "sample
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.ViewModels", "samples\nh\Sample.ViewModels\Sample.ViewModels.csproj", "{340AB7EA-34FA-45C9-A63F-A3F54DD43A7B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1", "1", "{BC39F4F4-1B32-48B9-800B-C559D9CC5D46}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1-tier", "1-tier", "{BC39F4F4-1B32-48B9-800B-C559D9CC5D46}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2", "2", "{F2967C8E-5BCA-433F-A930-827C27B6A991}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-tiers", "2-tiers", "{F2967C8E-5BCA-433F-A930-827C27B6A991}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.WpfClient", "samples\nh\1-tier\Sample.WpfClient\Sample.WpfClient.csproj", "{D766BF82-0AB2-45F4-B507-B5ED518D117C}"
 EndProject
@@ -79,6 +79,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Domain.Handlers", "samples\Sample.Domain.Handlers\Sample.Domain.Handlers.csproj", "{1608950F-4A1E-4FCA-A6FC-7BF0BC5716CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Domain.Data", "samples\ef\Sample.Domain.Data\Sample.Domain.Data.csproj", "{6A412AF2-ECFB-4783-BDA6-750B5D72C262}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample.Domain.Data", "samples\nh\Sample.Domain.Data\Sample.Domain.Data.csproj", "{2BB9A825-9CB0-49B0-BDB9-4F16E428EE28}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -174,6 +176,10 @@ Global
 		{6A412AF2-ECFB-4783-BDA6-750B5D72C262}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6A412AF2-ECFB-4783-BDA6-750B5D72C262}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6A412AF2-ECFB-4783-BDA6-750B5D72C262}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2BB9A825-9CB0-49B0-BDB9-4F16E428EE28}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2BB9A825-9CB0-49B0-BDB9-4F16E428EE28}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2BB9A825-9CB0-49B0-BDB9-4F16E428EE28}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2BB9A825-9CB0-49B0-BDB9-4F16E428EE28}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -202,5 +208,6 @@ Global
 		{A3DAC0FF-6C09-4C98-9B0E-D01BF986769C} = {FA151CCA-D872-4FB7-B5E0-6BE06688D30F}
 		{1608950F-4A1E-4FCA-A6FC-7BF0BC5716CE} = {FA151CCA-D872-4FB7-B5E0-6BE06688D30F}
 		{6A412AF2-ECFB-4783-BDA6-750B5D72C262} = {A6881D85-7976-4F6E-AADC-32F033D70842}
+		{2BB9A825-9CB0-49B0-BDB9-4F16E428EE28} = {9EB701FD-5F56-4555-8CE8-BCD8CEC0DEB9}
 	EndGlobalSection
 EndGlobal

@@ -10,9 +10,9 @@ namespace Radical.CQRS
 	public abstract class Aggregate : IAggregate, IEquatable<IAggregate> //, IHaveState<TState>
 	{
 		[Key]
-		public Guid Id { get; set; }
-		
-		public int Version { get; set; }
+		public Guid Id { get; protected set; }
+
+		public int Version { get; protected set; }
 
 		[Timestamp]
 		protected byte[] RowVersion { get; set; }

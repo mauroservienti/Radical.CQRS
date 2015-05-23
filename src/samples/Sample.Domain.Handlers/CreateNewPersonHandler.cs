@@ -8,7 +8,13 @@ namespace Sample.Domain.Handlers
 {
 	class CreateNewPersonHandler : AbstractCommandHandler<CreateNewPerson>
 	{
-		public IRepositoryFactory RepositoryFactory { get; set; }
+		//public IRepositoryFactory RepositoryFactory { get; set; }
+		IRepositoryFactory RepositoryFactory ;
+
+		public CreateNewPersonHandler( IRepositoryFactory repositoryFactory )
+		{
+			this.RepositoryFactory = repositoryFactory;
+		}
 
 		protected override object OnExecute( CreateNewPerson command )
 		{
