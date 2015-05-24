@@ -11,11 +11,11 @@ namespace Sample.Domain.People
 
 		internal BornInfo Info { get; set; }
 
-		internal List<Address> Addresses { get; set; }
+		internal ISet<Address> Addresses { get; set; }
 
 		internal Person()
 		{
-			this.Addresses = new List<Address>();
+			this.Addresses = new HashSet<Address>();
 		}
 
 		public static Person CreateNew( string nome )

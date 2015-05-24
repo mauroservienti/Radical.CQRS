@@ -19,7 +19,7 @@ namespace Radical.CQRS.Data
 
 		protected override void OnModelCreating( DbModelBuilder modelBuilder )
 		{
-			modelBuilder.RegisterEntityType( typeof( DomainEventCommit ) );
+			modelBuilder.Entity<DomainEventCommit>().ToTable( "DomainEventCommits" );
 			modelBuilder.MapPropertiesOf<DomainEventCommit>();
 		}
 

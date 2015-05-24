@@ -57,6 +57,7 @@
     <Compile Include="DbMigrations\DropViewOperation.cs" />
     <Compile Include="DbMigrations\CreateViewOperation.cs" />
     <Compile Include="DbMigrations\CustomSqlServerMigrationSqlGenerator.cs" />
+    <Compile Include="EntityFrameworkDomainEventCommit.cs" />
     <Compile Include="IAggregateAsyncLoader.cs" />
     <Compile Include="IAggregateLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

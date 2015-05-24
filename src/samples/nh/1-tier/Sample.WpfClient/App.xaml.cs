@@ -6,6 +6,7 @@ using Castle;
 using Jason.Configuration;
 using Jason.Windsor;
 using Topics.Radical.Windows.Presentation.Helpers;
+using System.Linq;
 
 namespace Sample.WpfClient
 {
@@ -19,6 +20,15 @@ namespace Sample.WpfClient
 			ServicePointManager.DefaultConnectionLimit = 10;
 
 			new WindsorApplicationBootstrapper<MainView>()
+				.OnBeforeInstall( bootConventions => 
+				{
+					bootConventions.AssemblyFileScanPatterns = entryAssembly => 
+					{
+						return bootConventions
+							.DefaultAssemblyFileScanPatterns( entryAssembly )
+							.Union( new[] { "Sample.*.dll" } );
+					};
+				} )
 				.OnBoot( container =>
 				{
 					var probeDirectory = EnvironmentHelper.GetCurrentDirectory();

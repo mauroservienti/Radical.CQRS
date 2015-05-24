@@ -22,8 +22,8 @@ namespace Sample.Domain.Data.Boot.Installers
 	{
 		public void Install( IWindsorContainer container, IConfigurationStore store )
 		{
-			//container.Register( Component.For<ISessionFactory>()
-			//	.UsingFactoryMethod( x => CreateSessionFactory() ) );
+			container.Register( Component.For<ISessionFactory>()
+				.UsingFactoryMethod( x => CreateSessionFactory() ) );
 		}
 
 		static ISessionFactory CreateSessionFactory()
@@ -35,14 +35,14 @@ namespace Sample.Domain.Data.Boot.Installers
 								.ConnectionString( c => c.FromConnectionStringWithKey( "SampleDomain" ) ) )
 				.Mappings( m =>
 				{
-					m.AutoMappings.Add( AutoMap.AssemblyOf<Person>( domain )
-						.Override<IAggregate>( map =>
-						{
-							map.IgnoreProperty( a => a.IsChanged );
-							map.Map( Reveal.Member<IAggregate>( "RowVersion" ) )
-								.CustomSqlType( "timestamp" );
-						} ) );
-					m.FluentMappings.Conventions.Add( DefaultLazy.Never() );
+					//m.AutoMappings.Add( AutoMap.AssemblyOf<Person>( domain )
+					//	.Override<IAggregate>( map =>
+					//	{
+					//		map.IgnoreProperty( a => a.IsChanged );
+					//		map.Map( Reveal.Member<IAggregate>( "RowVersion" ) )
+					//			.CustomSqlType( "timestamp" );
+					//	} ) );
+					//m.FluentMappings.Conventions.Add( DefaultLazy.Never() );
 					m.FluentMappings.AddFromAssemblyOf<NHibernateInstaller>();
 				} )
 				//.CurrentSessionContext( "web" )

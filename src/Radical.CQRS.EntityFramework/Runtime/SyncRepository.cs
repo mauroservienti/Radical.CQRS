@@ -52,15 +52,14 @@ namespace Radical.CQRS.Runtime
 					.Select( aggregate => new
 					{
 						Aggregate = aggregate,
-						Commits = aggregate.GetUncommittedEvents().Select( e => new DomainEventCommit()
+						Commits = aggregate.GetUncommittedEvents().Select( e => new EntityFrameworkDomainEventCommit()
 						{
 							EventId = e.Id,
 							AggregateId = aggregate.Id,
+							Version = e.AggregateVersion,
 							TransactionId = this.TransactionId,
 							PublishedOn = e.OccurredAt,
-							EventType = ConcreteProxyCreator.GetValidTypeName( e.GetType() ),
-							EventBlob = JsonConvert.SerializeObject( e ),
-							Version = e.AggregateVersion
+							Event = e,
 						} )
 					} )
 					.SelectMany( a => a.Commits )
