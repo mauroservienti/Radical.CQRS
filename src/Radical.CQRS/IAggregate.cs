@@ -12,4 +12,21 @@ namespace Radical.CQRS
 		IEnumerable<IDomainEvent> GetUncommittedEvents();
 		void ClearUncommittedEvents();
 	}
+
+	public interface IHaveState 
+	{
+		IAggregateState State { get; }
+		void AcceptState( IAggregateState state );
+	}
+
+	public interface IAggregate<TState> : IAggregate, IHaveState where TState : class, IAggregateState
+	{
+
+	}
+
+	public interface IAggregateState 
+	{
+		Guid Id { get; set; }
+		int Version { get; set; }
+	}
 }

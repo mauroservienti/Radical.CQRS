@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\CreateNewCompany.cs" />
     <Compile Include="Commands\TouchPerson.cs" />
     <Compile Include="Commands\CreateNewPerson.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -6,6 +6,7 @@
 *.user
 *.sln.docstates
 *.sln.ide/
+clean-up.bat
 
 # NServiceBus Logs
 nsb_log_*.txt
@@ -16,6 +17,7 @@ nsb_log_*.txt
 [Rr]elease/
 x64/
 build/
+_build/
 [Bb]in/
 [Oo]bj/
 
@@ -160,4 +162,3 @@ $RECYCLE.BIN/
 
 # Mac desktop service store files
 .DS_Store
-src/_build/

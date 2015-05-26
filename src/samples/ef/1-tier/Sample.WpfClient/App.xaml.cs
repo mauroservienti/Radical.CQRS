@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Linq;
 using Sample.WpfClient.Presentation;
 using Topics.Radical.Windows.Presentation.Boot;
 using System.Net;
@@ -19,6 +20,15 @@ namespace Sample.WpfClient
 			ServicePointManager.DefaultConnectionLimit = 10;
 
 			new WindsorApplicationBootstrapper<MainView>()
+				.OnBeforeInstall( bootConventions =>
+				{
+					bootConventions.AssemblyFileScanPatterns = entryAssembly =>
+					{
+						return bootConventions
+							.DefaultAssemblyFileScanPatterns( entryAssembly )
+							.Union( new[] { "Sample.*.dll" } );
+					};
+				} )
 				.OnBoot( container =>
 				{
 					var probeDirectory = EnvironmentHelper.GetCurrentDirectory();

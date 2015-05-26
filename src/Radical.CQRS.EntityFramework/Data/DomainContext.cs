@@ -6,6 +6,7 @@ using System.Data.Entity.ModelConfiguration.Configuration;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
+using Topics.Radical.Helpers;
 using Topics.Radical.Reflection;
 
 namespace Radical.CQRS.Data
@@ -19,8 +20,8 @@ namespace Radical.CQRS.Data
 
 		protected override void OnModelCreating( DbModelBuilder modelBuilder )
 		{
-			modelBuilder.RegisterEntityType( typeof( DomainEventCommit ) );
-			modelBuilder.MapPropertiesOf<DomainEventCommit>();
+			modelBuilder.Entity<EntityFrameworkDomainEventCommit>().ToTable( "DomainEventCommits" );
+			modelBuilder.MapPropertiesOf<EntityFrameworkDomainEventCommit>( propertiesToSkip: new[] { "Event" } );
 		}
 
 		protected Expression<Func<T, Object>> Skip<T>( Expression<Func<T, Object>> property )
@@ -51,17 +52,50 @@ namespace Radical.CQRS.Data
 
 	public static class DbModelBuilderExtensions
 	{
-		public static void MapPropertiesOf<T>( this DbModelBuilder modelBuilder, Dictionary<String, Action<ConventionTypeConfiguration>> interceptors = null, String[] propertiesToSkip = null ) where T : class
+		public static void MapPropertiesOf<T>( this DbModelBuilder modelBuilder, Dictionary<String, Action<ConventionTypeConfiguration>> interceptors = null, String[] propertiesToSkip = null, Boolean autoConfigureAggregateVersionProperty = true, Boolean autoConfigureAggregateStateVersionProperty = true, Boolean skipAggregateIsChangedProperty= true ) where T : class
 		{
 			if( propertiesToSkip == null )
 			{
 				propertiesToSkip = new String[ 0 ];
 			}
-			var temp = new HashSet<String>( propertiesToSkip );
+			var toSkip = new HashSet<String>( propertiesToSkip );
 
 			if( interceptors == null )
 			{
 				interceptors = new Dictionary<String, Action<ConventionTypeConfiguration>>();
+			}
+
+			if( typeof( T ).Is<IAggregate>() )
+			{
+				if( skipAggregateIsChangedProperty ) 
+				{
+					toSkip.Add( ReflectionHelper.GetPropertyName<IAggregate>( a => a.IsChanged ) );
+				}
+
+				if( autoConfigureAggregateVersionProperty )
+				{
+					var version = ReflectionHelper.GetPropertyName<IAggregate>( a => a.Version );
+					interceptors.Add( version, cfg =>
+					{
+						var property = cfg.Property( version );
+						property.HasColumnName( version );
+						property.IsConcurrencyToken();
+					} );
+				}
+			}
+
+			if( typeof( T ).Is<IAggregateState>() )
+			{
+				if( autoConfigureAggregateStateVersionProperty )
+				{
+					var version = ReflectionHelper.GetPropertyName<IAggregateState>( a => a.Version );
+					interceptors.Add( version, cfg =>
+					{
+						var property = cfg.Property( version );
+						property.HasColumnName( version );
+						property.IsConcurrencyToken();
+					} );
+				}
 			}
 
 			modelBuilder
@@ -78,7 +112,7 @@ namespace Radical.CQRS.Data
 							var interceptor = interceptors[ p.Name ];
 							interceptor( c );
 						}
-						else if( !temp.Contains( p.Name ) )
+						else if( !toSkip.Contains( p.Name ) )
 						{
 							var property = c.Property( p );
 							property.HasColumnName( p.Name );

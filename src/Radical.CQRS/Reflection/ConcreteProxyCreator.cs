@@ -8,243 +8,255 @@ using Topics.Radical.Reflection;
 
 namespace Radical.CQRS.Reflection
 {
-    public class ConcreteProxyCreator
-    {
-        internal const string SUFFIX = "__impl";
-        ModuleBuilder moduleBuilder;
+	public class ConcreteProxyCreator
+	{
+		internal const string SUFFIX = "__impl";
+		ModuleBuilder moduleBuilder;
 
-        public ConcreteProxyCreator()
-        {
-            var assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(
-                new AssemblyName("StructureMessageProxies"),
-                AssemblyBuilderAccess.Run
-                );
+		public ConcreteProxyCreator()
+		{
+			var assemblyBuilder = AppDomain.CurrentDomain.DefineDynamicAssembly(
+				new AssemblyName( "StructureMessageProxies" ),
+				AssemblyBuilderAccess.Run
+				);
 
-            moduleBuilder = assemblyBuilder.DefineDynamicModule("StructureMessageProxies");
-        }
+			moduleBuilder = assemblyBuilder.DefineDynamicModule( "StructureMessageProxies" );
+		}
 
-        static ConcreteProxyCreator instance = new ConcreteProxyCreator();
-        static Dictionary<Type, Type> cache = new Dictionary<Type, Type>();
-        public static T CreateInsance<T>()
-        {
-            if (typeof(T).IsInterface)
-            {
-                Type t;
-                if (!cache.TryGetValue(typeof(T), out t))
-                {
-                    var type = instance.CreateTypeFrom(typeof(T));
-                    cache.Add(typeof(T), type);
-                    t = type;
-                }
-                var obj = Activator.CreateInstance(t);
-                return (T)obj;
-            }
+		static ConcreteProxyCreator instance = new ConcreteProxyCreator();
+		static Dictionary<Type, Type> cache = new Dictionary<Type, Type>();
+		public static T CreateInsance<T>()
+		{
+			return (T)CreateInsance( typeof( T ) );
+		}
 
-            throw new NotSupportedException("Only Interface!!!");
-        }
+		public static Object CreateInsance( Type interfaceType )
+		{
+			var concreteType = GetConcreteType( interfaceType );
+			var obj = Activator.CreateInstance( concreteType );
+			return obj;
+		}
 
-        public static string GetValidTypeName(Type type)
-        {
-            if (type.Is<IDomainEvent>() && type.Name.EndsWith(SUFFIX, StringComparison.OrdinalIgnoreCase))
-            {
-                var contracts = type.GetInterfaces().Except(new[] { typeof(IDomainEvent) }).ToArray();
-                if (contracts.Length == 1)
-                {
-                    return contracts[0].ToShortString();
-                }
+		public static string GetValidTypeName( Type type )
+		{
+			if( type.Is<IDomainEvent>() && type.Name.EndsWith( SUFFIX, StringComparison.OrdinalIgnoreCase ) )
+			{
+				var contracts = type.GetInterfaces().Except( new[] { typeof( IDomainEvent ) } ).ToArray();
+				if( contracts.Length == 1 )
+				{
+					return contracts[ 0 ].ToShortString();
+				}
 
-                throw new NotSupportedException("Multiple contracts not supported");
-            }
+				throw new NotSupportedException( "Multiple contracts not supported" );
+			}
 
-            return type.ToShortString();
-        }
+			return type.ToShortString();
+		}
 
-        /// <summary>
-        /// Generates the concrete implementation of the given type.
-        /// Only properties on the given type are generated in the concrete implementation.
-        /// </summary>
-        public Type CreateTypeFrom(Type type)
-        {
-            var typeBuilder = moduleBuilder.DefineType(type.FullName + SUFFIX,
-                TypeAttributes.Serializable | TypeAttributes.Class | TypeAttributes.Public | TypeAttributes.Sealed,
-                typeof(object)
-                );
+		public static Type GetConcreteType( Type interfaceType )
+		{
+			if( interfaceType.IsInterface )
+			{
+				Type concreteType;
+				if( !cache.TryGetValue( interfaceType, out concreteType ) )
+				{
+					var tempType = instance.CreateTypeFrom( interfaceType );
+					cache.Add( interfaceType, tempType );
+					concreteType = tempType;
+				}
 
-            typeBuilder.DefineDefaultConstructor(MethodAttributes.Public);
+				return concreteType;
+			}
 
-            foreach (var prop in GetAllProperties(type))
-            {
-                var propertyType = prop.PropertyType;
+			throw new NotSupportedException( "Only Interface types are supported." );
+		}
 
-                var fieldBuilder = typeBuilder.DefineField(
-                    "field_" + prop.Name,
-                    propertyType,
-                    FieldAttributes.Private);
+		/// <summary>
+		/// Generates the concrete implementation of the given type.
+		/// Only properties on the given type are generated in the concrete implementation.
+		/// </summary>
+		public Type CreateTypeFrom( Type type )
+		{
+			var typeBuilder = moduleBuilder.DefineType( type.FullName + SUFFIX,
+				TypeAttributes.Serializable | TypeAttributes.Class | TypeAttributes.Public | TypeAttributes.Sealed,
+				typeof( object )
+				);
 
-                var propBuilder = typeBuilder.DefineProperty(
-                    prop.Name,
-                    prop.Attributes | PropertyAttributes.HasDefault,
-                    propertyType,
-                    null);
+			typeBuilder.DefineDefaultConstructor( MethodAttributes.Public );
 
-                foreach (var customAttribute in prop.GetCustomAttributes(true))
-                {
-                    AddCustomAttributeToProperty(customAttribute, propBuilder);
-                }
+			foreach( var prop in GetAllProperties( type ) )
+			{
+				var propertyType = prop.PropertyType;
 
-                var getMethodBuilder = typeBuilder.DefineMethod(
-                    "get_" + prop.Name,
-                    MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig | MethodAttributes.Final | MethodAttributes.Virtual | MethodAttributes.VtableLayoutMask,
-                    propertyType,
-                    Type.EmptyTypes);
+				var fieldBuilder = typeBuilder.DefineField(
+					"field_" + prop.Name,
+					propertyType,
+					FieldAttributes.Private );
 
-                var getIL = getMethodBuilder.GetILGenerator();
-                // For an instance property, argument zero is the instance. Load the 
-                // instance, then load the private field and return, leaving the
-                // field value on the stack.
-                getIL.Emit(OpCodes.Ldarg_0);
-                getIL.Emit(OpCodes.Ldfld, fieldBuilder);
-                getIL.Emit(OpCodes.Ret);
+				var propBuilder = typeBuilder.DefineProperty(
+					prop.Name,
+					prop.Attributes | PropertyAttributes.HasDefault,
+					propertyType,
+					null );
 
-                // Define the "set" accessor method for Number, which has no return
-                // type and takes one argument of type int (Int32).
-                var setMethodBuilder = typeBuilder.DefineMethod(
-                    "set_" + prop.Name,
-                    getMethodBuilder.Attributes,
-                    null,
-                    new[] { propertyType });
+				foreach( var customAttribute in prop.GetCustomAttributes( true ) )
+				{
+					AddCustomAttributeToProperty( customAttribute, propBuilder );
+				}
 
-                var setIL = setMethodBuilder.GetILGenerator();
-                // Load the instance and then the numeric argument, then store the
-                // argument in the field.
-                setIL.Emit(OpCodes.Ldarg_0);
-                setIL.Emit(OpCodes.Ldarg_1);
-                setIL.Emit(OpCodes.Stfld, fieldBuilder);
-                setIL.Emit(OpCodes.Ret);
+				var getMethodBuilder = typeBuilder.DefineMethod(
+					"get_" + prop.Name,
+					MethodAttributes.Public | MethodAttributes.SpecialName | MethodAttributes.HideBySig | MethodAttributes.Final | MethodAttributes.Virtual | MethodAttributes.VtableLayoutMask,
+					propertyType,
+					Type.EmptyTypes );
 
-                // Last, map the "get" and "set" accessor methods to the 
-                // PropertyBuilder. The property is now complete. 
-                propBuilder.SetGetMethod(getMethodBuilder);
-                propBuilder.SetSetMethod(setMethodBuilder);
-            }
+				var getIL = getMethodBuilder.GetILGenerator();
+				// For an instance property, argument zero is the instance. Load the 
+				// instance, then load the private field and return, leaving the
+				// field value on the stack.
+				getIL.Emit( OpCodes.Ldarg_0 );
+				getIL.Emit( OpCodes.Ldfld, fieldBuilder );
+				getIL.Emit( OpCodes.Ret );
 
-            typeBuilder.AddInterfaceImplementation(type);
+				// Define the "set" accessor method for Number, which has no return
+				// type and takes one argument of type int (Int32).
+				var setMethodBuilder = typeBuilder.DefineMethod(
+					"set_" + prop.Name,
+					getMethodBuilder.Attributes,
+					null,
+					new[] { propertyType } );
 
-            return typeBuilder.CreateType();
-        }
+				var setIL = setMethodBuilder.GetILGenerator();
+				// Load the instance and then the numeric argument, then store the
+				// argument in the field.
+				setIL.Emit( OpCodes.Ldarg_0 );
+				setIL.Emit( OpCodes.Ldarg_1 );
+				setIL.Emit( OpCodes.Stfld, fieldBuilder );
+				setIL.Emit( OpCodes.Ret );
 
-        /// <summary>
-        /// Given a custom attribute and property builder, adds an instance of custom attribute
-        /// to the property builder
-        /// </summary>
-        void AddCustomAttributeToProperty(object customAttribute, PropertyBuilder propBuilder)
-        {
-            var customAttributeBuilder = BuildCustomAttribute(customAttribute);
-            if (customAttributeBuilder != null)
-            {
-                propBuilder.SetCustomAttribute(customAttributeBuilder);
-            }
-        }
+				// Last, map the "get" and "set" accessor methods to the 
+				// PropertyBuilder. The property is now complete. 
+				propBuilder.SetGetMethod( getMethodBuilder );
+				propBuilder.SetSetMethod( setMethodBuilder );
+			}
 
-        static CustomAttributeBuilder BuildCustomAttribute(object customAttribute)
-        {
-            ConstructorInfo longestCtor = null;
-            // Get constructor with the largest number of parameters
-            foreach (var cInfo in customAttribute.GetType().GetConstructors().
-                Where(cInfo => longestCtor == null || longestCtor.GetParameters().Length < cInfo.GetParameters().Length))
-                longestCtor = cInfo;
+			typeBuilder.AddInterfaceImplementation( type );
 
-            if (longestCtor == null)
-            {
-                return null;
-            }
+			return typeBuilder.CreateType();
+		}
 
-            // For each constructor parameter, get corresponding (by name similarity) property and get its value
-            var args = new object[longestCtor.GetParameters().Length];
-            var position = 0;
-            foreach (var consParamInfo in longestCtor.GetParameters())
-            {
-                var attrPropInfo = customAttribute.GetType().GetProperty(consParamInfo.Name, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase);
-                if (attrPropInfo != null)
-                {
-                    args[position] = attrPropInfo.GetValue(customAttribute, null);
-                }
-                else
-                {
-                    args[position] = null;
-                    var attrFieldInfo = customAttribute.GetType().GetField(consParamInfo.Name, BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.IgnoreCase);
-                    if (attrFieldInfo == null)
-                    {
-                        if (consParamInfo.ParameterType.IsValueType)
-                        {
-                            args[position] = Activator.CreateInstance(consParamInfo.ParameterType);
-                        }
-                    }
-                    else
-                    {
-                        args[position] = attrFieldInfo.GetValue(customAttribute);
-                    }
-                }
-                ++position;
-            }
+		/// <summary>
+		/// Given a custom attribute and property builder, adds an instance of custom attribute
+		/// to the property builder
+		/// </summary>
+		void AddCustomAttributeToProperty( object customAttribute, PropertyBuilder propBuilder )
+		{
+			var customAttributeBuilder = BuildCustomAttribute( customAttribute );
+			if( customAttributeBuilder != null )
+			{
+				propBuilder.SetCustomAttribute( customAttributeBuilder );
+			}
+		}
 
-            var propList = new List<PropertyInfo>();
-            var propValueList = new List<object>();
-            foreach (var attrPropInfo in customAttribute.GetType().GetProperties(BindingFlags.Public | BindingFlags.Instance))
-            {
-                if (!attrPropInfo.CanWrite)
-                {
-                    continue;
-                }
-                object defaultValue = null;
-                var defaultAttributes = attrPropInfo.GetCustomAttributes(typeof(DefaultValueAttribute), true);
-                if (defaultAttributes.Length > 0)
-                {
-                    defaultValue = ((DefaultValueAttribute)defaultAttributes[0]).Value;
-                }
-                var value = attrPropInfo.GetValue(customAttribute, null);
-                if (value == defaultValue)
-                {
-                    continue;
-                }
-                propList.Add(attrPropInfo);
-                propValueList.Add(value);
-            }
-            return new CustomAttributeBuilder(longestCtor, args, propList.ToArray(), propValueList.ToArray());
-        }
+		static CustomAttributeBuilder BuildCustomAttribute( object customAttribute )
+		{
+			ConstructorInfo longestCtor = null;
+			// Get constructor with the largest number of parameters
+			foreach( var cInfo in customAttribute.GetType().GetConstructors().
+				Where( cInfo => longestCtor == null || longestCtor.GetParameters().Length < cInfo.GetParameters().Length ) )
+				longestCtor = cInfo;
 
-        /// <summary>
-        /// Returns all properties on the given type, going up the inheritance hierarchy.
-        /// </summary>
-        static IEnumerable<PropertyInfo> GetAllProperties(Type type)
-        {
-            var props = new List<PropertyInfo>(type.GetProperties());
-            foreach (var interfaceType in type.GetInterfaces())
-            {
-                props.AddRange(GetAllProperties(interfaceType));
-            }
+			if( longestCtor == null )
+			{
+				return null;
+			}
 
-            var names = new List<string>(props.Count);
-            var duplicates = new List<PropertyInfo>(props.Count);
-            foreach (var p in props)
-            {
-                if (names.Contains(p.Name))
-                {
-                    duplicates.Add(p);
-                }
-                else
-                {
-                    names.Add(p.Name);
-                }
-            }
+			// For each constructor parameter, get corresponding (by name similarity) property and get its value
+			var args = new object[ longestCtor.GetParameters().Length ];
+			var position = 0;
+			foreach( var consParamInfo in longestCtor.GetParameters() )
+			{
+				var attrPropInfo = customAttribute.GetType().GetProperty( consParamInfo.Name, BindingFlags.Public | BindingFlags.Instance | BindingFlags.IgnoreCase );
+				if( attrPropInfo != null )
+				{
+					args[ position ] = attrPropInfo.GetValue( customAttribute, null );
+				}
+				else
+				{
+					args[ position ] = null;
+					var attrFieldInfo = customAttribute.GetType().GetField( consParamInfo.Name, BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.IgnoreCase );
+					if( attrFieldInfo == null )
+					{
+						if( consParamInfo.ParameterType.IsValueType )
+						{
+							args[ position ] = Activator.CreateInstance( consParamInfo.ParameterType );
+						}
+					}
+					else
+					{
+						args[ position ] = attrFieldInfo.GetValue( customAttribute );
+					}
+				}
+				++position;
+			}
 
-            foreach (var d in duplicates)
-            {
-                props.Remove(d);
-            }
+			var propList = new List<PropertyInfo>();
+			var propValueList = new List<object>();
+			foreach( var attrPropInfo in customAttribute.GetType().GetProperties( BindingFlags.Public | BindingFlags.Instance ) )
+			{
+				if( !attrPropInfo.CanWrite )
+				{
+					continue;
+				}
+				object defaultValue = null;
+				var defaultAttributes = attrPropInfo.GetCustomAttributes( typeof( DefaultValueAttribute ), true );
+				if( defaultAttributes.Length > 0 )
+				{
+					defaultValue = ( ( DefaultValueAttribute )defaultAttributes[ 0 ] ).Value;
+				}
+				var value = attrPropInfo.GetValue( customAttribute, null );
+				if( value == defaultValue )
+				{
+					continue;
+				}
+				propList.Add( attrPropInfo );
+				propValueList.Add( value );
+			}
+			return new CustomAttributeBuilder( longestCtor, args, propList.ToArray(), propValueList.ToArray() );
+		}
 
-            return props;
-        }
+		/// <summary>
+		/// Returns all properties on the given type, going up the inheritance hierarchy.
+		/// </summary>
+		static IEnumerable<PropertyInfo> GetAllProperties( Type type )
+		{
+			var props = new List<PropertyInfo>( type.GetProperties() );
+			foreach( var interfaceType in type.GetInterfaces() )
+			{
+				props.AddRange( GetAllProperties( interfaceType ) );
+			}
 
-    }
+			var names = new List<string>( props.Count );
+			var duplicates = new List<PropertyInfo>( props.Count );
+			foreach( var p in props )
+			{
+				if( names.Contains( p.Name ) )
+				{
+					duplicates.Add( p );
+				}
+				else
+				{
+					names.Add( p.Name );
+				}
+			}
+
+			foreach( var d in duplicates )
+			{
+				props.Remove( d );
+			}
+
+			return props;
+		}
+
+	}
 }

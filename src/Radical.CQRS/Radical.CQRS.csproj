@@ -47,7 +47,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AbstractRepository.cs" />
+    <Compile Include="AbstractSyncRepository%28TSession, TCommit%29.cs" />
+    <Compile Include="AbstractRepository%28TSession, TCommit%29.cs" />
+    <Compile Include="Aggregate%28TState%29.cs" />
+    <Compile Include="Aggregate.cs" />
+    <Compile Include="AggregateState.cs" />
+    <Compile Include="DomainEventCommit.cs" />
+    <Compile Include="IDefaultAggregateStateFinder%28TSession%29.cs" />
+    <Compile Include="IDefaultAggregateFinder%28TSession%29.cs" />
+    <Compile Include="IAggregateStateFinder%28TSession, TState%29.cs" />
+    <Compile Include="IAggregateFinder%28TSession, TAggregate%29.cs" />
+    <Compile Include="IAggregateFinderProvider%28TSession%29.cs" />
+    <Compile Include="IAggregateStateFinderProvider%28TSession%29.cs" />
     <Compile Include="Server\Context Management.cs" />
     <Compile Include="Reflection\ConcreteProxyCreator.cs" />
     <Compile Include="IAggregate.cs" />

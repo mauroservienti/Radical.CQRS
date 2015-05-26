@@ -5,13 +5,15 @@ namespace Radical.CQRS.Services
 {
 	class RepositoryFactory : IRepositoryFactory
 	{
-		readonly AggregateLoaderProvider aggregateLoaderProvider;
+		readonly IAggregateFinderProvider<ISession> aggregateFinderProvider;
+		readonly IAggregateStateFinderProvider<ISession> aggregateStateFinderProvider;
 		readonly ISessionFactory _factory;
 
-		public RepositoryFactory( ISessionFactory factory, AggregateLoaderProvider aggregateLoaderProvider )
+		public RepositoryFactory( ISessionFactory factory, IAggregateFinderProvider<ISession> aggregateFinderProvider, IAggregateStateFinderProvider<ISession> aggregateStateFinderProvider )
 		{
 			this._factory = factory;
-			this.aggregateLoaderProvider = aggregateLoaderProvider;
+			this.aggregateFinderProvider = aggregateFinderProvider;
+			this.aggregateStateFinderProvider = aggregateStateFinderProvider;
 		}
 
 		//public IAsyncRepository OpenAsyncSession()
@@ -23,7 +25,7 @@ namespace Radical.CQRS.Services
 		public IRepository OpenSession()
 		{
 			var session = this._factory.OpenSession();
-			return new SyncRepository( session, this.aggregateLoaderProvider );
+			return new SyncRepository( session, this.aggregateFinderProvider, this.aggregateStateFinderProvider );
 		}
 	}
 }

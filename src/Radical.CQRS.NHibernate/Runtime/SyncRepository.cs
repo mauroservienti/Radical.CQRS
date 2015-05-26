@@ -10,116 +10,84 @@ using NHibernate;
 
 namespace Radical.CQRS.Runtime
 {
-	class SyncRepository : AbstractSyncRepository
+	class SyncRepository : AbstractSyncRepository<ISession, NHibernateDomainEventCommit>
 	{
 		public override void Dispose()
 		{
-			this._session.Dispose();
+			base.Dispose();
+
+			this._transaction.Dispose();
+			this.session.Dispose();
 		}
 
-		readonly AggregateLoaderProvider aggregateLoaderProvider;
-		readonly ISession _session;
+		readonly ITransaction _transaction;
 
-		public SyncRepository( ISession session, AggregateLoaderProvider aggregateLoaderProvider )
+		public SyncRepository( ISession session, IAggregateFinderProvider<ISession> aggregateFinderProvider, IAggregateStateFinderProvider<ISession> aggregateStateFinderProvider )
+			: base(session, aggregateFinderProvider, aggregateStateFinderProvider)
 		{
-			this.aggregateLoaderProvider = aggregateLoaderProvider;
-			this._session = session;
+			this._transaction = session.BeginTransaction();
 		}
 
-		public override void Add<TAggregate>( TAggregate aggregate )
+		protected override void OnCommitChanges()
 		{
-			try
-			{
-				this._session.Save( aggregate );
-				this.TrackIfRequired( aggregate );
-			}
-			catch( Exception ex )
-			{
-				//TODO: log
-				throw;
-			}
+			this._transaction.Commit();
+			this.session.Close();
 		}
 
-		public override void CommitChanges()
+		protected override void OnAdd( object aggregateOrState )
 		{
-			try
-			{
-				this.AggregateTracking
-					.Where( a => a.IsChanged )
-					.Select( aggregate => new
-					{
-						Aggregate = aggregate,
-						Commits = aggregate.GetUncommittedEvents().Select( e => new DomainEventCommit()
-						{
-							EventId = e.Id,
-							AggregateId = aggregate.Id,
-							TransactionId = this.TransactionId,
-							PublishedOn = e.OccurredAt,
-							EventType = ConcreteProxyCreator.GetValidTypeName( e.GetType() ),
-							EventBlob = JsonConvert.SerializeObject( e ),
-							Version = e.AggregateVersion
-						} )
-					} )
-					.SelectMany( a => a.Commits )
-					.ToArray()
-					.ForEach( temp =>
-					{
-						this._session.Save( temp );
-					} );
-
-				this._session.Flush();
-
-				this.AggregateTracking.ForEach( a => a.ClearUncommittedEvents() );
-				this.AggregateTracking.Clear();
-
-			}
-			catch( Exception ex )
-			{
-				//TODO: log
-				throw;
-			}
+			this.session.Save( aggregateOrState );
 		}
 
-		public override TAggregate GetById<TAggregate>( Guid aggregateId )
+		protected override void OnAdd( IEnumerable<NHibernateDomainEventCommit> commits )
 		{
-			TAggregate aggregate = null;
-			var loader = this.aggregateLoaderProvider.GetLoader<TAggregate>();
-			if( loader != null )
+			foreach( var commit in commits )
 			{
-				aggregate = loader.GetById( this._session, aggregateId );
+				this.session.Save( commit );
 			}
-			else
-			{
-				aggregate = this._session.Load<TAggregate>( aggregateId );
-			}
-
-			this.TrackIfRequired( aggregate );
-
-			return aggregate;
 		}
 
-		public override IEnumerable<TAggregate> GetById<TAggregate>( params Guid[] aggregateIds )
-		{
-			IEnumerable<TAggregate> results = null;
-			var loader = this.aggregateLoaderProvider.GetLoader<TAggregate>();
-			if( loader != null )
-			{
-				results = loader.GetById( this._session, aggregateIds );
-			}
-			else
-			{
-				results = this._session.QueryOver<TAggregate>()
-					.WhereRestrictionOn(a => a.Id)
-					.IsIn( aggregateIds )
-					.List();
-			}
 
-			foreach( var a in results )
-			{
-				this.TrackIfRequired( a );
-			}
+		//public override TAggregate GetById<TAggregate>( Guid aggregateId )
+		//{
+		//	TAggregate aggregate = null;
+		//	var loader = this.aggregateLoaderProvider.GetLoader<TAggregate>();
+		//	if( loader != null )
+		//	{
+		//		aggregate = loader.GetById( this._session, aggregateId );
+		//	}
+		//	else
+		//	{
+		//		aggregate = this._session.Load<TAggregate>( aggregateId );
+		//	}
 
-			return results;
-		}
+		//	this.TrackIfRequired( aggregate );
+
+		//	return aggregate;
+		//}
+
+		//public override IEnumerable<TAggregate> GetById<TAggregate>( params Guid[] aggregateIds )
+		//{
+		//	IEnumerable<TAggregate> results = null;
+		//	var loader = this.aggregateLoaderProvider.GetLoader<TAggregate>();
+		//	if( loader != null )
+		//	{
+		//		results = loader.GetById( this._session, aggregateIds );
+		//	}
+		//	else
+		//	{
+		//		results = this._session.QueryOver<TAggregate>()
+		//			.WhereRestrictionOn(a => a.Id)
+		//			.IsIn( aggregateIds )
+		//			.List();
+		//	}
+
+		//	foreach( var a in results )
+		//	{
+		//		this.TrackIfRequired( a );
+		//	}
+
+		//	return results;
+		//}
 	}
 }
