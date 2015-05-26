@@ -73,6 +73,7 @@
     <Compile Include="Boot\Installers\NHibernateInstaller.cs" />
     <Compile Include="Maps\DomainConfiguration.cs" />
     <Compile Include="Maps\NHibernateDomainEventCommitMap.cs" />
+    <Compile Include="Maps\CompanyStateMap.cs" />
     <Compile Include="Maps\PersonMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

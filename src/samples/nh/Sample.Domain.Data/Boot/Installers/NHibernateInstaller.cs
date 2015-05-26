@@ -28,7 +28,7 @@ namespace Sample.Domain.Data.Boot.Installers
 
 		static ISessionFactory CreateSessionFactory()
 		{
-			var domain = new DomainConfiguration();
+			//var domain = new DomainConfiguration();
 
 			return Fluently.Configure()
 				.Database( MsSqlConfiguration.MsSql2012

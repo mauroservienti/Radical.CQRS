@@ -16,8 +16,7 @@ namespace Sample.Domain.Data.Maps
 			Table( "People" );
 			Not.LazyLoad();
 			Id( p => p.Id ).GeneratedBy.Assigned();
-			Map( Reveal.Member<Person>( "RowVersion" ) ).OptimisticLock();
-			Map( p => p.Version );
+			Map( p => p.Version ).OptimisticLock();
 			Map( p => p.Name );
 			Component( p => p.Info ).ColumnPrefix( "Info_" );
 			HasMany<Address>( p => p.Addresses )
