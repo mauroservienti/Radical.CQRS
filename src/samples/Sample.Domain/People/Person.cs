@@ -7,6 +7,8 @@ namespace Sample.Domain.People
 {
 	public class Person : Aggregate
 	{
+		internal Byte[] RowVersion { get; set; }
+
 		internal string Name { get; set; }
 
 		internal BornInfo Info { get; set; }

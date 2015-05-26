@@ -6,12 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Entity;
+using Radical.CQRS.Data;
 
 namespace Sample.Domain.Services
 {
-	class PersonLoader : IAggregateLoader<Person>
+	class PersonFinder : IAggregateFinder<DomainContext, Person>
 	{
-		public Person GetById( System.Data.Entity.DbContext session, Guid aggregateId )
+		public Person FindById( DomainContext session, Guid aggregateId )
 		{
 			var db = session.Set<Person>();
 			var aggregate = db.Include( p => p.Addresses )
@@ -20,7 +21,7 @@ namespace Sample.Domain.Services
 			return aggregate;
 		}
 
-		public IEnumerable<Person> GetById( System.Data.Entity.DbContext session, Guid[] aggregateIds )
+		public IEnumerable<Person> FindById( DomainContext session, params Guid[] aggregateIds )
 		{
 			var db = session.Set<Person>();
 			var results = db.Include( p => p.Addresses )

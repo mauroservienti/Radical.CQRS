@@ -7,17 +7,12 @@ using Radical.CQRS.Reflection;
 
 namespace Radical.CQRS
 {
-	public abstract class Aggregate : IAggregate, IEquatable<IAggregate> //, IHaveState<TState>
+	public abstract class Aggregate : IAggregate, IEquatable<IAggregate>
 	{
-		[Key]
 		public Guid Id { get; protected set; }
 
 		public int Version { get; protected set; }
 
-		[Timestamp]
-		protected byte[] RowVersion { get; set; }
-
-		[NotMapped]
 		public bool IsChanged { get { return this._uncommittedEvents.Any(); } }
 
 		readonly List<IDomainEvent> _uncommittedEvents = new List<IDomainEvent>();

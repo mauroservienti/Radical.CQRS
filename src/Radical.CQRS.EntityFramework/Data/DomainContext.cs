@@ -19,8 +19,8 @@ namespace Radical.CQRS.Data
 
 		protected override void OnModelCreating( DbModelBuilder modelBuilder )
 		{
-			modelBuilder.Entity<DomainEventCommit>().ToTable( "DomainEventCommits" );
-			modelBuilder.MapPropertiesOf<DomainEventCommit>();
+			modelBuilder.Entity<EntityFrameworkDomainEventCommit>().ToTable( "DomainEventCommits" );
+			modelBuilder.MapPropertiesOf<EntityFrameworkDomainEventCommit>( propertiesToSkip: new[] { "Event" } );
 		}
 
 		protected Expression<Func<T, Object>> Skip<T>( Expression<Func<T, Object>> property )
@@ -57,7 +57,11 @@ namespace Radical.CQRS.Data
 			{
 				propertiesToSkip = new String[ 0 ];
 			}
-			var temp = new HashSet<String>( propertiesToSkip );
+			var toSkip = new HashSet<String>( propertiesToSkip );
+			if( typeof( T ).Is<IAggregate>() ) 
+			{
+				toSkip.Add( "IsChanged" );
+			}
 
 			if( interceptors == null )
 			{
@@ -78,7 +82,7 @@ namespace Radical.CQRS.Data
 							var interceptor = interceptors[ p.Name ];
 							interceptor( c );
 						}
-						else if( !temp.Contains( p.Name ) )
+						else if( !toSkip.Contains( p.Name ) )
 						{
 							var property = c.Property( p );
 							property.HasColumnName( p.Name );
