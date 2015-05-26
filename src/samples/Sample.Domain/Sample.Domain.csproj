@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Companies\Company.cs" />
+    <Compile Include="Companies\ICompanyCreated.cs" />
     <Compile Include="People\Address.cs" />
     <Compile Include="People\BornInfo.cs" />
     <Compile Include="People\IPersonNameChanged.cs" />

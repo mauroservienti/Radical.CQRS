@@ -4,6 +4,7 @@ using System.Linq;
 using Topics.Radical.Linq;
 using Topics.Radical.Reflection;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace Radical.CQRS
 {
@@ -50,6 +51,28 @@ namespace Radical.CQRS
 			return iAggregateStateType != null;
 		}
 
+		protected virtual TAggregate CreateAggregateInstance<TAggregate>( IAggregateState state )
+		{
+			var aggregateType = typeof( TAggregate );
+			var stateCtor = aggregateType.GetConstructors( bindingAttr: BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance )
+				.Where( c => c.GetParameters().All( p => p.ParameterType == state.GetType() ) )
+				.SingleOrDefault();
+
+			if( stateCtor != null )
+			{
+				var aggregate = stateCtor.Invoke( new Object[] { state } );
+
+				return ( TAggregate )aggregate;
+			}
+			else
+			{
+				var aggregateInstance = ( IHaveState )Activator.CreateInstance( typeof( TAggregate ), true );
+				aggregateInstance.AcceptState( state );
+
+				return ( TAggregate )aggregateInstance;
+			}
+		}
+
 		public virtual TAggregate GetById<TAggregate>( Guid aggregateId ) where TAggregate : class, IAggregate
 		{
 			TAggregate result = null;
@@ -57,11 +80,7 @@ namespace Radical.CQRS
 			if( this.TryGetAggregateStateType<TAggregate>( out iAggregateStateType ) )
 			{
 				var state = this.GetAggregateStateById( iAggregateStateType, aggregateId );
-
-				var aggregateInstance = ( IHaveState )Activator.CreateInstance( typeof( TAggregate ), true );
-				aggregateInstance.AcceptState( state );
-
-				result = ( TAggregate )aggregateInstance;
+				result = this.CreateAggregateInstance<TAggregate>( state );
 			}
 			else
 			{
@@ -82,13 +101,7 @@ namespace Radical.CQRS
 			{
 				var states = this.GetAggregateStateById( iAggregateStateType, aggregateIds );
 
-				results = states.Select( state =>
-				{
-					var aggregateInstance = ( IHaveState )Activator.CreateInstance( typeof( TAggregate ), true );
-					aggregateInstance.AcceptState( state );
-
-					return ( TAggregate )aggregateInstance;
-				} );
+				results = states.Select( state => this.CreateAggregateInstance<TAggregate>( state ) );
 			}
 			else
 			{

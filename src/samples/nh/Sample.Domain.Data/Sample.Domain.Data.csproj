@@ -69,6 +69,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Boot\Installers\DefaultInstaller.cs" />
     <Compile Include="Boot\Installers\NHibernateInstaller.cs" />
     <Compile Include="Maps\DomainConfiguration.cs" />
     <Compile Include="Maps\NHibernateDomainEventCommitMap.cs" />

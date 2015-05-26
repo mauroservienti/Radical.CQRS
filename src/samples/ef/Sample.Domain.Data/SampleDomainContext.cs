@@ -1,4 +1,5 @@
 ﻿using Radical.CQRS.Data;
+using Sample.Domain.Companies;
 using Sample.Domain.People;
 using System;
 using System.Collections.Generic;
@@ -26,12 +27,17 @@ namespace Sample.Domain
 				.HasForeignKey( a => a.PersonId )
 				.WillCascadeOnDelete();
 
-			modelBuilder.MapPropertiesOf<Person>( 
+			modelBuilder.MapPropertiesOf<Person>(
+
 				propertiesToSkip: new[] 
 				{
 					ReflectionHelper.GetPropertyName<Person>( p => p.Info ), 
 					ReflectionHelper.GetPropertyName<Person>( p => p.Addresses ) 
 				} );
+
+			var companyState = modelBuilder.Entity<Company.State>()
+				.ToTable( "Companies" );
+			modelBuilder.MapPropertiesOf<Company.State>();
 		}
 	}
 }

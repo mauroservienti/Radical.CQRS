@@ -63,6 +63,17 @@ namespace Sample.WpfClient.Presentation
 			}
 		}
 
+		public void CreateCompany()
+		{
+			using( var client = this.clientFactory.CreateClient() )
+			{
+				var key = ( Guid )client.Execute( new CreateNewCompany()
+				{
+					Name = "FooBar"
+				} );
+			}
+		}
+
 		public async Task CreateNewPerson()
 		{
 			if( !this.Validate() )

@@ -51,6 +51,7 @@
     <Compile Include="AbstractRepository%28TSession, TCommit%29.cs" />
     <Compile Include="Aggregate%28TState%29.cs" />
     <Compile Include="Aggregate.cs" />
+    <Compile Include="AggregateState.cs" />
     <Compile Include="DomainEventCommit.cs" />
     <Compile Include="IDefaultAggregateStateFinder%28TSession%29.cs" />
     <Compile Include="IDefaultAggregateFinder%28TSession%29.cs" />

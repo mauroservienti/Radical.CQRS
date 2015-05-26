@@ -26,7 +26,7 @@ namespace Radical.CQRS
 
 	public interface IAggregateState 
 	{
-		Guid Id { get; }
-		int Version { get; }
+		Guid Id { get; set; }
+		int Version { get; set; }
 	}
 }

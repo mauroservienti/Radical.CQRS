@@ -54,6 +54,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreateNewCompanyHandler.cs" />
     <Compile Include="TouchPersonHandler.cs" />
     <Compile Include="CreateNewPersonHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

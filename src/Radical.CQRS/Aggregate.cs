@@ -9,9 +9,15 @@ namespace Radical.CQRS
 {
 	public abstract class Aggregate : IAggregate, IEquatable<IAggregate>
 	{
-		public Guid Id { get; protected set; }
+		Guid _id = Guid.NewGuid();
 
-		public int Version { get; protected set; }
+		public virtual Guid Id 
+		{ 
+			get { return this._id; }
+			protected set { this._id = value; } 
+		}
+
+		public virtual int Version { get; protected set; }
 
 		public bool IsChanged { get { return this._uncommittedEvents.Any(); } }
 
@@ -19,7 +25,7 @@ namespace Radical.CQRS
 
 		protected Aggregate()
 		{
-			this.Id = Guid.NewGuid();
+			
 		}
 
 		IEnumerable<IDomainEvent> IAggregate.GetUncommittedEvents()
