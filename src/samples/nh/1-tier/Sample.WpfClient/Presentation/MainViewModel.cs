@@ -11,18 +11,19 @@ using Radical.CQRS;
 using Sample.Domain.People;
 using Sample.Messages.Commands;
 using Jason.Client.ComponentModel;
+using NHibernate;
 
 namespace Sample.WpfClient.Presentation
 {
 	class MainViewModel : AbstractViewModel, ICanBeValidated, IExpectViewLoadedCallback
 	{
 		readonly IWorkerServiceClientFactory clientFactory;
-		//readonly IViewContextFactory<IPeopleViewContext> peopleViewContextFactory;
+		readonly Func<IStatelessSession> sessionFactory;
 
-		public MainViewModel( IWorkerServiceClientFactory clientFactory )//, IViewContextFactory<IPeopleViewContext> peopleViewContextFactory )
+		public MainViewModel( IWorkerServiceClientFactory clientFactory, Func<IStatelessSession> sessionFactory )
 		{
 			this.clientFactory = clientFactory;
-			//this.peopleViewContextFactory = peopleViewContextFactory;
+			this.sessionFactory = sessionFactory;
 			this.People = new ObservableCollection<PersonView>();
 
 			this.GetPropertyMetadata( () => this.SelectedPerson )
@@ -51,7 +52,7 @@ namespace Sample.WpfClient.Presentation
 
 		public Boolean CanTouchSelectedPerson { get { return this.SelectedPerson != null; } }
 
-		public void TouchSelectedPerson() 
+		public void TouchSelectedPerson()
 		{
 			using( var client = this.clientFactory.CreateClient() )
 			{
@@ -73,51 +74,68 @@ namespace Sample.WpfClient.Presentation
 			}
 		}
 
-		public async Task CreateNewPerson()
+		public Task CreateNewPerson()
 		{
 			if( !this.Validate() )
 			{
 				this.TriggerValidation();
-				return;
+				return Task.FromResult( false );
 			}
 
-			using( var client = this.clientFactory.CreateClient() )
+			var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
+			return Task.Run( () =>
 			{
-				var key = ( Guid )client.Execute( new CreateNewPerson()
+				using( var client = this.clientFactory.CreateClient() )
 				{
-					Name = this.Name
-				} );
+					var key = ( Guid )client.Execute( new CreateNewPerson()
+					{
+						Name = this.Name
+					} );
 
-				//using( var db = this.peopleViewContextFactory.Create() )
-				//{
-				//	var result = await db.PeopleView
-				//		.Include( p => p.Addresses )
-				//		.SingleAsync( p => p.Id == key );
-				//	this.People.Insert( 0, result );
-				//}
-			}
+					using( var db = this.sessionFactory() )
+					{
+						var p = db.Get<PersonView>( key );
+
+						return p;
+					}
+				}
+			} )
+			.ContinueWith( t =>
+			{
+				if( t.IsFaulted )
+				{
+					throw t.Exception;
+				}
+
+				this.People.Insert( 0, t.Result );
+			}, scheduler );
 		}
 
-		async Task PopulatePeople()
+		Task PopulatePeople()
 		{
-			//try
-			//{
-			//	using( var db = this.peopleViewContextFactory.Create() )
-			//	{
-			//		var all = await db.PeopleView
-			//			.Include( p => p.Addresses )
-			//			.ToListAsync();
+			var scheduler = TaskScheduler.FromCurrentSynchronizationContext();
+			return Task.Run( () =>
+			{
+				using( var db = this.sessionFactory() )
+				{
+					var all = db.QueryOver<PersonView>()
+						.List();
 
-			//		foreach( var item in all )
-			//		{
-			//			this.People.Add( item );
-			//		}
-			//	}
-			//}
-			//catch( Exception ex ) 
-			//{
-			//	throw;
-			//}
+					return all;
+				}
+			} )
+			.ContinueWith( t =>
+			{
+				if( t.IsFaulted )
+				{
+					throw t.Exception;
+				}
+
+				foreach( var item in t.Result )
+				{
+					this.People.Add( item );
+				}
+			}, scheduler );
 		}
 
 		public void OnViewLoaded()

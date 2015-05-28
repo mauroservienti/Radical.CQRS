@@ -7,6 +7,7 @@ using Jason.Configuration;
 using Jason.Windsor;
 using Topics.Radical.Windows.Presentation.Helpers;
 using System.Linq;
+using Castle.Facilities.TypedFactory;
 
 namespace Sample.WpfClient
 {
@@ -20,9 +21,13 @@ namespace Sample.WpfClient
 			ServicePointManager.DefaultConnectionLimit = 10;
 
 			new WindsorApplicationBootstrapper<MainView>()
-				.OnBeforeInstall( bootConventions => 
+				.OnServiceProviderCreated( container => 
 				{
-					bootConventions.AssemblyFileScanPatterns = entryAssembly => 
+					( ( ServiceProviderWrapper )container ).Container.AddFacility<TypedFactoryFacility>();
+				} )
+				.OnBeforeInstall( bootConventions =>
+				{
+					bootConventions.AssemblyFileScanPatterns = entryAssembly =>
 					{
 						return bootConventions
 							.DefaultAssemblyFileScanPatterns( entryAssembly )

@@ -17,7 +17,7 @@ namespace Sample.ViewModels
 
 		public int Version { get; private set; }
 
-		public ICollection<AddressView> Addresses { get; private set; }
+		public IEnumerable<AddressView> Addresses { get; private set; }
 
 		public BornInfoView BornInfo { get; private set; }
 	}
