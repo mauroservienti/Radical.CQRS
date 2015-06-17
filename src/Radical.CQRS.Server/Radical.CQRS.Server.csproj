@@ -78,8 +78,9 @@
     <Reference Include="Owin">
       <HintPath>..\packages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Radical">
-      <HintPath>..\packages\Radical.1.5.1.0\lib\net45\Radical.dll</HintPath>
+    <Reference Include="Radical, Version=1.5.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Radical.1.5.2.0\lib\net45\Radical.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Radical.Bootstrapper">
       <HintPath>..\packages\Radical.Bootstrapper.1.0.0.0\lib\net45\Radical.Bootstrapper.dll</HintPath>

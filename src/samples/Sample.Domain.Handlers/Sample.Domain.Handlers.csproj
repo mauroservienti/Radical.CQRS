@@ -41,8 +41,8 @@
       <HintPath>..\..\packages\Jason.Tools.0.4.0.1-Beta\lib\net40\Jason.Tools.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="Radical, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\..\packages\Radical.1.5.1.0\lib\net45\Radical.dll</HintPath>
+    <Reference Include="Radical, Version=1.5.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\Radical.1.5.2.0\lib\net45\Radical.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
