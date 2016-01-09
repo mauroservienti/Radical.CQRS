@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
   <metadata>
     <id>Radical.CQRS.Server</id>
-    <version>0.0.0.1-Alfa-1</version>
+    <version>0.1.1-RC1</version>
     <authors>Mauro Servienti, Nazareno Manco</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Radical.CQRS is a small and simple toolkit to implement CQRS</description>
@@ -10,7 +10,7 @@
     <dependencies>
       <dependency id="Newtonsoft.Json" version="6.0.8" />
       <dependency id="Radical" version="1.5.1.0" />
-      <dependency id="Radical.CQRS" version="0.0.0.1-Alfa-1" />
+      <dependency id="Radical.CQRS" version="0.1.1-RC1" />
       <dependency id="Castle.Windsor" version="3.3.0" />
       <dependency id="Jason.WebAPI" version="0.5.2.0-Beta-2" />
       <dependency id="Jason.Windsor" version="1.0.0.0-Beta" />
@@ -25,6 +25,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\artifacts\$configuration$\Radical.CQRS.Server\lib\" target="lib\" />
+    <file src="..\artifacts\debug\Radical.CQRS.Server\lib\" target="lib\" />
   </files>
 </package>
