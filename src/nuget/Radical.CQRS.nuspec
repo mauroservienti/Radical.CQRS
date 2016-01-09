@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
   <metadata>
     <id>Radical.CQRS</id>
-    <version>0.0.0.1-Alfa-1</version>
+    <version>0.1.1-RC1</version>
     <authors>Mauro Servienti, Nazareno Manco</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Radical.CQRS is a small and simple toolkit to implement CQRS</description>
@@ -13,6 +13,6 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="..\..\_build\$configuration$\Radical.CQRS\lib\" target="lib\" />
+    <file src="..\artifacts\debug\Radical.CQRS\lib\" target="lib\" />
   </files>
 </package>
