@@ -72,6 +72,10 @@
     <Compile Include="SampleDomainContext\201505261357091_Change_RowVersion_Column.Designer.cs">
       <DependentUpon>201505261357091_Change_RowVersion_Column.cs</DependentUpon>
     </Compile>
+    <Compile Include="SampleDomainContext\201507141117147_DomainEventCommit_is_dispatched_and_stream_group.cs" />
+    <Compile Include="SampleDomainContext\201507141117147_DomainEventCommit_is_dispatched_and_stream_group.Designer.cs">
+      <DependentUpon>201507141117147_DomainEventCommit_is_dispatched_and_stream_group.cs</DependentUpon>
+    </Compile>
     <Compile Include="SampleDomainContext\Configuration.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -115,6 +119,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SampleDomainContext\201505261357091_Change_RowVersion_Column.resx">
       <DependentUpon>201505261357091_Change_RowVersion_Column.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SampleDomainContext\201507141117147_DomainEventCommit_is_dispatched_and_stream_group.resx">
+      <DependentUpon>201507141117147_DomainEventCommit_is_dispatched_and_stream_group.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -16,5 +16,9 @@ namespace Radical.CQRS
 		public Guid TransactionId { get; set; }
 		
 		public abstract IDomainEvent Event{ get; set; }
+
+	    public string StreamGroup { get; set; }
+
+	    public bool IsDispatched { get; set; }
 	}
 }

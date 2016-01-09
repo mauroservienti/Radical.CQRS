@@ -7,6 +7,7 @@
 *.sln.docstates
 *.sln.ide/
 clean-up.bat
+.vs/
 
 # NServiceBus Logs
 nsb_log_*.txt
@@ -17,7 +18,7 @@ nsb_log_*.txt
 [Rr]elease/
 x64/
 build/
-_build/
+artifacts/
 [Bb]in/
 [Oo]bj/
 
