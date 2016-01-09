@@ -76,19 +76,28 @@ namespace Radical.CQRS
 
 		protected abstract void OnAdd( IEnumerable<TCommit> commits );
 
-		protected virtual TCommit FillDomainEventCommit( IDomainEvent @event )
+		protected virtual TCommit FillDomainEventCommit( IDomainEvent @event, IAggregate aggregate )
 		{
-			var commit = new TCommit();
+		    var commit = new TCommit
+		    {
+		        EventId = @event.Id,
+		        AggregateId = @event.AggregateId,
+		        Version = @event.AggregateVersion,
+		        TransactionId = this.TransactionId,
+		        PublishedOn = @event.OccurredAt,
+		        Event = @event,
+		        IsDispatched = false,
+		        StreamGroup = GetAggregateStreamGroup(aggregate)
+		    };
 
-			commit.EventId = @event.Id;
-			commit.AggregateId = @event.AggregateId;
-			commit.Version = @event.AggregateVersion;
-			commit.TransactionId = this.TransactionId;
-			commit.PublishedOn = @event.OccurredAt;
-			commit.Event = @event;
 
-			return commit;
+		    return commit;
 		}
+
+	    protected virtual string GetAggregateStreamGroup(IAggregate aggregate)
+	    {
+	        return aggregate.GetType().Namespace.Split('.').Last();
+	    }
 	}
 
 	//public abstract class AbstractAsyncRepository : AbstractRepository, IAsyncRepository

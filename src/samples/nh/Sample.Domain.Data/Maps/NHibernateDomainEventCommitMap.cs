@@ -23,6 +23,8 @@ namespace Sample.Domain.Data.Maps
 			Map( o => o.PublishedOn );
 			Map( o => o.EventType );
 			Map( o => o.EventBlob );
+            Map( o => o.StreamGroup );
+            Map( o => o.IsDispatched );
 		}
 	}
 }

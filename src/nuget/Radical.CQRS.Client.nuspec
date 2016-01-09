@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
   <metadata>
-    <id>Radical.CQRS.EntityFramework</id>
+    <id>Radical.CQRS.Client</id>
     <version>0.0.0.1-Alfa-1</version>
     <authors>Mauro Servienti, Nazareno Manco</authors>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
@@ -11,10 +11,10 @@
       <dependency id="Newtonsoft.Json" version="6.0.8" />
       <dependency id="Radical" version="1.5.1.0" />
       <dependency id="Radical.CQRS" version="0.0.0.1-Alfa-1" />
-      <dependency id="EntityFramework" version="6.1.3" />
+      <dependency id="Microsoft.Net.Http" version="2.2.29" />
     </dependencies>
   </metadata>
   <files>
-    <file src="..\..\_build\$configuration$\Radical.CQRS.EntityFramework\lib\" target="lib\" />
+    <file src="..\artifacts\$configuration$\Radical.CQRS.Client\lib\" target="lib\" />
   </files>
 </package>

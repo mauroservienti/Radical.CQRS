@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radical.CQRS", "Radical.CQRS\Radical.CQRS.csproj", "{653A6247-A969-494C-ABBB-4287FFB729D9}"
 EndProject
@@ -11,26 +11,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radical.CQRS.Client", "Radi
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Radical.CQRS.EntityFramework", "Radical.CQRS.EntityFramework\Radical.CQRS.EntityFramework.csproj", "{1B7E9417-C085-450B-912E-55A3518C698C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget packages", "nuget packages", "{E002A4D7-79E1-4B68-A10C-7B640058561F}"
-EndProject
-Project("{E09DD79A-4488-4AB9-8D3F-A7EEE78BF432}") = "Radical.CQRS", "nuget\Radical.CQRS\Radical.CQRS.nuproj", "{8506913C-BABA-45BE-B6EB-2DDE2EE47FE2}"
-	ProjectSection(ProjectDependencies) = postProject
-		{653A6247-A969-494C-ABBB-4287FFB729D9} = {653A6247-A969-494C-ABBB-4287FFB729D9}
-	EndProjectSection
-EndProject
-Project("{E09DD79A-4488-4AB9-8D3F-A7EEE78BF432}") = "Radical.CQRS.Client", "nuget\Radical.CQRS.Client\Radical.CQRS.Client.nuproj", "{57199FA5-8A64-4A3D-A544-5938962C69B3}"
-	ProjectSection(ProjectDependencies) = postProject
-		{F3E2BEBE-A733-4BEB-95BD-18497400BF6E} = {F3E2BEBE-A733-4BEB-95BD-18497400BF6E}
-	EndProjectSection
-EndProject
-Project("{E09DD79A-4488-4AB9-8D3F-A7EEE78BF432}") = "Radical.CQRS.Server", "nuget\Radical.CQRS.Server\Radical.CQRS.Server.nuproj", "{9C0BB9C4-CDC1-4201-98B5-C2F9B23F8CD3}"
-	ProjectSection(ProjectDependencies) = postProject
-		{E54A40DC-50BE-4E53-9759-0C59B76E1ACF} = {E54A40DC-50BE-4E53-9759-0C59B76E1ACF}
-	EndProjectSection
-EndProject
-Project("{E09DD79A-4488-4AB9-8D3F-A7EEE78BF432}") = "Radical.CQRS.EntityFramework", "nuget\Radical.CQRS.EntityFramework\Radical.CQRS.EntityFramework.nuproj", "{CC2E9E77-766A-4BEB-909F-E10797FB4FF8}"
-	ProjectSection(ProjectDependencies) = postProject
-		{1B7E9417-C085-450B-912E-55A3518C698C} = {1B7E9417-C085-450B-912E-55A3518C698C}
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "nuget", "nuget", "{E002A4D7-79E1-4B68-A10C-7B640058561F}"
+	ProjectSection(SolutionItems) = preProject
+		nuget\Radical.CQRS.Client.nuspec = nuget\Radical.CQRS.Client.nuspec
+		nuget\Radical.CQRS.EntityFramework.nuspec = nuget\Radical.CQRS.EntityFramework.nuspec
+		nuget\Radical.CQRS.nuspec = nuget\Radical.CQRS.nuspec
+		nuget\Radical.CQRS.Server.nuspec = nuget\Radical.CQRS.Server.nuspec
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2-tiers", "2-tiers", "{FCF93004-69A3-4D44-A8FD-532005820106}"
@@ -109,22 +95,6 @@ Global
 		{1B7E9417-C085-450B-912E-55A3518C698C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1B7E9417-C085-450B-912E-55A3518C698C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1B7E9417-C085-450B-912E-55A3518C698C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8506913C-BABA-45BE-B6EB-2DDE2EE47FE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8506913C-BABA-45BE-B6EB-2DDE2EE47FE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8506913C-BABA-45BE-B6EB-2DDE2EE47FE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8506913C-BABA-45BE-B6EB-2DDE2EE47FE2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{57199FA5-8A64-4A3D-A544-5938962C69B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{57199FA5-8A64-4A3D-A544-5938962C69B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{57199FA5-8A64-4A3D-A544-5938962C69B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{57199FA5-8A64-4A3D-A544-5938962C69B3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9C0BB9C4-CDC1-4201-98B5-C2F9B23F8CD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9C0BB9C4-CDC1-4201-98B5-C2F9B23F8CD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9C0BB9C4-CDC1-4201-98B5-C2F9B23F8CD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9C0BB9C4-CDC1-4201-98B5-C2F9B23F8CD3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CC2E9E77-766A-4BEB-909F-E10797FB4FF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC2E9E77-766A-4BEB-909F-E10797FB4FF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC2E9E77-766A-4BEB-909F-E10797FB4FF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC2E9E77-766A-4BEB-909F-E10797FB4FF8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A7D775BA-06BC-459E-BA5C-C8BA76FD133D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A7D775BA-06BC-459E-BA5C-C8BA76FD133D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7D775BA-06BC-459E-BA5C-C8BA76FD133D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -190,10 +160,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{8506913C-BABA-45BE-B6EB-2DDE2EE47FE2} = {E002A4D7-79E1-4B68-A10C-7B640058561F}
-		{57199FA5-8A64-4A3D-A544-5938962C69B3} = {E002A4D7-79E1-4B68-A10C-7B640058561F}
-		{9C0BB9C4-CDC1-4201-98B5-C2F9B23F8CD3} = {E002A4D7-79E1-4B68-A10C-7B640058561F}
-		{CC2E9E77-766A-4BEB-909F-E10797FB4FF8} = {E002A4D7-79E1-4B68-A10C-7B640058561F}
 		{FCF93004-69A3-4D44-A8FD-532005820106} = {A6881D85-7976-4F6E-AADC-32F033D70842}
 		{02BDD423-7D41-471D-9B1D-80606742C473} = {A6881D85-7976-4F6E-AADC-32F033D70842}
 		{A7D775BA-06BC-459E-BA5C-C8BA76FD133D} = {FCF93004-69A3-4D44-A8FD-532005820106}

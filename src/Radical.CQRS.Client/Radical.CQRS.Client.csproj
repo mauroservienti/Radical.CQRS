@@ -60,32 +60,32 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>if exist "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45". (
-    if exist "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45\it-it". (
-        del "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45\it-it\*.*"  /Q
-        rd "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45\it-it"
+    <PostBuildEvent>if exist "$(SolutionDir)artifacts\$(ConfigurationName)\$(ProjectName)\lib\net45". (
+    if exist "$(SolutionDir)artifacts\$(ConfigurationName)\$(ProjectName)\lib\net45\it-it". (
+        del "$(SolutionDir)artifacts\$(ConfigurationName)\$(ProjectName)\lib\net45\it-it\*.*"  /Q
+        rd "$(SolutionDir)artifacts\$(ConfigurationName)\$(ProjectName)\lib\net45\it-it"
     )
     
-    del "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45\*.*"  /Q
+    del "$(SolutionDir)artifacts\$(ConfigurationName)\$(ProjectName)\lib\net45\*.*"  /Q
     echo "Build/NuGet folder purged".
 ) else (
     echo "no Build/NuGet folder to purge.".
 )
 
-if not exist "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45". (
-    md "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45"
+if not exist "$(SolutionDir)artifacts\$(ConfigurationName)\$(ProjectName)\lib\net45". (
+    md "$(SolutionDir)artifacts\$(ConfigurationName)\$(ProjectName)\lib\net45"
     echo "Build/NuGet folder created.".
 )
 
-if not exist "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45\it-IT". (
-    md "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45\it-IT"
+if not exist "$(SolutionDir)artifacts\$(ConfigurationName)\$(ProjectName)\lib\net45\it-IT". (
+    md "$(SolutionDir)artifacts\$(ConfigurationName)\$(ProjectName)\lib\net45\it-IT"
     echo "Build/NuGet (resources) folder created.".
 )
 
-copy "$(TargetDir)$(TargetName).*" "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45\$(TargetName).*" /B /Y
-copy "$(TargetDir)it-IT\$(TargetName).resources.*" "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45\it-IT\$(TargetName).resources.*" /B /Y
+copy "$(TargetDir)$(TargetName).*" "$(SolutionDir)artifacts\$(ConfigurationName)\$(ProjectName)\lib\net45\$(TargetName).*" /B /Y
+copy "$(TargetDir)it-IT\$(TargetName).resources.*" "$(SolutionDir)artifacts\$(ConfigurationName)\$(ProjectName)\lib\net45\it-IT\$(TargetName).resources.*" /B /Y
 
-del "$(SolutionDir)_build\$(ConfigurationName)\$(ProjectName)\lib\net45\$(TargetFileName).config"</PostBuildEvent>
+del "$(SolutionDir)artifacts\$(ConfigurationName)\$(ProjectName)\lib\net45\$(TargetFileName).config"</PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
