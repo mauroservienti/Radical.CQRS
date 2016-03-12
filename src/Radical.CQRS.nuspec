@@ -4,6 +4,7 @@
     <id>Radical.CQRS</id>
     <version>$version$</version>
     <authors>Mauro Servienti, Nazareno Manco</authors>
+    <owners>radical,mauroservienti</owners>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Radical.CQRS is a small and simple toolkit to implement CQRS</description>
     <projectUrl>https://github.com/RadicalFx/Radical.CQRS</projectUrl>
