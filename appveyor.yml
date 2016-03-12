@@ -34,5 +34,6 @@ pull_requests:
 deploy:
 - provider: Environment
   name: NuGet public feed
+  artifact: /.*\.nupkg/
   on:
     branch: develop
