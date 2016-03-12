@@ -20,7 +20,7 @@ before_build:
 
 
 build:
-  project: src\Radical.sln
+  project: src\Radical.CQRS.sln
   verbosity: minimal
 
 # after_build:
