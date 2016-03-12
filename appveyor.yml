@@ -34,6 +34,6 @@ pull_requests:
 deploy:
 - provider: Environment
   name: NuGet public feed
-  artifact: /.*\.nupkg/
+  artifact: src\artifacts\nuget\Radical.CQRS*.nupkg
   on:
     branch: develop
