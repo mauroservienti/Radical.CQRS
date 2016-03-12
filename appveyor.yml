@@ -13,6 +13,10 @@ platform: Any CPU
 environment:
   use_build_number_in_packages: true
 
+artifacts:
+  - path: src\artifacts\Debug
+  - path: src\artifacts\nuget\*.nupkg
+
 cache:
   src\packages -> src\**\packages.config
 
