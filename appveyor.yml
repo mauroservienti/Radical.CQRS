@@ -16,7 +16,7 @@ cache:
   - src\packages -> src\**\packages.config
 
 before_build:
-  - nuget restore "src\Radical.sln"
+  - nuget restore "src\Radical.CQRS.sln"
 
 
 build:
