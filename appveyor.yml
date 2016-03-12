@@ -14,8 +14,8 @@ environment:
   use_build_number_in_packages: true
 
 artifacts:
-  - path: src\artifacts\Debug
-  - path: src\artifacts\nuget\*.nupkg
+  - path: src\build\Debug
+  - path: src\build\nuget\*.nupkg
 
 cache:
   src\packages -> src\**\packages.config
@@ -29,8 +29,8 @@ build:
   verbosity: minimal
 
 after_build:
-  md "src\artifacts\nuget"
-  nuget pack "src\Radical.CQRS.nuspec" -Version "%GitVersion_NuGetVersion%" -Properties "configuration=%CONFIGURATION%" -OutputDirectory "src\artifacts\nuget"
+  md "src\build\nuget"
+  nuget pack "src\Radical.CQRS.nuspec" -Version "%GitVersion_NuGetVersion%" -Properties "configuration=%CONFIGURATION%" -OutputDirectory "src\build\nuget"
 
 pull_requests:
   do_not_increment_build_number: true
