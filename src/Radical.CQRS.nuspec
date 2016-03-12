@@ -8,7 +8,6 @@
     <description>Radical.CQRS is a small and simple toolkit to implement CQRS</description>
     <projectUrl>https://github.com/RadicalFx/Radical.CQRS</projectUrl>
     <iconUrl>http://www.radicalframework.com/img/radical-ico.png</iconUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <tags>CQRS</tags>
     <dependencies>
       <dependency id="Newtonsoft.Json" version="6.0.8" />
