@@ -18,10 +18,10 @@ artifacts:
   - path: src\build\nuget\*.nupkg
 
 cache:
-  src\packages -> src\**\packages.config
+  - src\packages -> src\**\packages.config
 
 before_build:
-  nuget restore "src\Radical.CQRS.sln"
+  - nuget restore "src\Radical.CQRS.sln"
 
 
 build:
@@ -29,8 +29,8 @@ build:
   verbosity: minimal
 
 after_build:
-  md "src\build\nuget"
-  nuget pack "src\Radical.CQRS.nuspec" -Version "%GitVersion_NuGetVersion%" -Properties "configuration=%CONFIGURATION%" -OutputDirectory "src\build\nuget"
+  - md "src\build\nuget"
+  - nuget pack "src\Radical.CQRS.nuspec" -Version "%GitVersion_NuGetVersion%" -Properties "configuration=%CONFIGURATION%" -OutputDirectory "src\build\nuget"
 
 pull_requests:
   do_not_increment_build_number: true
