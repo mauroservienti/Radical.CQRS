@@ -2,6 +2,7 @@
 #     DEVELOPMENT BRANCH
 #
 # build in Debug mode and deploy as pre-release
+
 branches:
   only:
     - develop
@@ -30,8 +31,8 @@ after_build:
 pull_requests:
     do_not_increment_build_number: true
 
-# deploy:
-#   - provider: Environment
-#     name: NuGet feed
-#     on:
-#       branch: develop
+deploy:
+- provider: Environment
+  name: NuGet public feed
+  on:
+    branch: develop
