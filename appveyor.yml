@@ -1,7 +1,7 @@
 #
 #     DEVELOPMENT BRANCH
 #
-# build in Debug mode and deploy to MyGet.org as pre-release
+# build in Debug mode and deploy as pre-release
 branches:
   only:
     - develop
@@ -23,15 +23,15 @@ build:
   project: src\Radical.CQRS.sln
   verbosity: minimal
 
-# after_build:
-#   - md "src\build\nuget"
-#   - nuget pack "src\nuget\Radical.nuspec" -Version "%package_version%" -Properties "configuration=%CONFIGURATION%" -OutputDirectory "src\build\nuget"
+after_build:
+  - md "src\artifacts\nuget"
+  - nuget pack "src\Radical.CQRS.nuspec" -Version "%GitVersion_NuGetVersion%" -Properties "configuration=Debug" -OutputDirectory "src\artifacts\nuget"
 
 pull_requests:
     do_not_increment_build_number: true
 
-deploy:
-  - provider: Environment
-    name: NuGet feed
-    on:
-      branch: develop
+# deploy:
+#   - provider: Environment
+#     name: NuGet feed
+#     on:
+#       branch: develop
