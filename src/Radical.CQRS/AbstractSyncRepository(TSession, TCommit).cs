@@ -51,8 +51,13 @@ namespace Radical.CQRS
             return iAggregateStateType != null;
         }
 
-        protected virtual TAggregate CreateAggregateInstance<TAggregate>(IAggregateState state)
+        protected virtual TAggregate CreateAggregateInstance<TAggregate>(IAggregateState state) where TAggregate : class, IAggregate
         {
+            if(state == null)
+            {
+                return null;
+            }
+
             var aggregateType = typeof(TAggregate);
             var stateCtor = aggregateType
                 .GetConstructors(bindingAttr: BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance)
@@ -98,6 +103,13 @@ namespace Radical.CQRS
                 result = this.GetAggregateById<TAggregate>(aggregateQuery);
             }
 
+            if(result == null)
+            {
+                var message = $"Aggregate '{typeof(TAggregate).Name}/{aggregateQuery.Id}' cannot be found";
+
+                throw new AggregateNotFoundException(message);
+            }
+
             this.TrackIfRequired(result);
 
             return result;
@@ -105,17 +117,29 @@ namespace Radical.CQRS
 
         public virtual IEnumerable<TAggregate> GetById<TAggregate>(params AggregateQuery[] aggregateQueries) where TAggregate : class, IAggregate
         {
-            IEnumerable<TAggregate> results = null;
+            TAggregate[] results = new TAggregate[0];
             Type iAggregateStateType;
             if(TryGetAggregateStateType<TAggregate>(out iAggregateStateType))
             {
                 var states = this.GetAggregateStateById(iAggregateStateType, aggregateQueries);
 
-                results = states.Select(state => this.CreateAggregateInstance<TAggregate>(state));
+                results = states.Select(state => this.CreateAggregateInstance<TAggregate>(state)).ToArray();
             }
             else
             {
-                results = this.GetAggregateById<TAggregate>(aggregateQueries);
+                results = this.GetAggregateById<TAggregate>(aggregateQueries).ToArray();
+            }
+
+            if(results.Length != aggregateQueries.Length)
+            {
+                var missingIds = aggregateQueries.Select(a => a.Id).Except(results.Select(r => r.Id));
+                var message = $"Some '{typeof(TAggregate).Name}' aggregates cannot be found:";
+                foreach(var missingId in missingIds)
+                {
+                    message += $"{Environment.NewLine} - Aggregate with id '{missingId}' doesn't exist;";
+                }
+
+                throw new AggregateNotFoundException(message);
             }
 
             foreach(var a in results)
