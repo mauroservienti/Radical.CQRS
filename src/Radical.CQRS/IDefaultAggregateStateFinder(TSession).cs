@@ -8,8 +8,8 @@ namespace Radical.CQRS
 {
 	public interface IDefaultAggregateStateFinder<TSession>
 	{
-		IAggregateState FindById( TSession session, Type stateType, Guid stateId );
+		IAggregateState FindById( TSession session, Type stateType, AggregateQuery aggregateQuery);
 
-		IEnumerable<IAggregateState> FindById( TSession session, Type stateType, params Guid[] stateIds );
+		IEnumerable<IAggregateState> FindById( TSession session, Type stateType, params AggregateQuery[] aggregateQueries);
 	}
 }
