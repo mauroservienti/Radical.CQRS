@@ -9,8 +9,8 @@ namespace Radical.CQRS
 	[Contract]
 	public interface IDefaultAggregateFinder<TSession>
 	{
-		TAggregate FindById<TAggregate>( TSession session, Guid aggregateId ) where TAggregate : class, IAggregate;
+		TAggregate FindById<TAggregate>( TSession session, AggregateQuery aggregateQuery ) where TAggregate : class, IAggregate;
 
-		IEnumerable<TAggregate> FindById<TAggregate>( TSession session, params Guid[] aggregateIds ) where TAggregate : class, IAggregate;
+		IEnumerable<TAggregate> FindById<TAggregate>( TSession session, params AggregateQuery[] aggregateQueries ) where TAggregate : class, IAggregate;
 	}
 }
