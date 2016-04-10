@@ -6,6 +6,8 @@ branches:
   only:
     - develop
 
+skip_tags: true
+
 configuration: Debug
 platform: Any CPU
 
@@ -32,8 +34,8 @@ deploy:
     name: NuGet public feed
   
   - provider: GitHub    
-    release: '%GitVersion_NuGetVersion%'
-    description: 'Release %GitVersion_NuGetVersion%'
+    release: $(GitVersion_NuGetVersion)
+    description: 'Release v$(GitVersion_NuGetVersion)'
     prerelease: true
     auth_token:
       secure: 2ijF4OfPYfIUTunubL/Z04ogADL9sx/gKW1jMRNJnAa1OpHZpSvCKmP0gvNs8C7h
